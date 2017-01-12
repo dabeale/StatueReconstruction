@@ -1,0 +1,10 @@
+include ../../Octave.mk
+
+NAME := kdtreeoct
+
+LIBS := $(LIB)
+	
+standard: oct tree.cpp node.cpp
+	 CC="$(O_CC)" CXX="$(O_CXX)" DL_LD="$(O_CXX)" LFLAGS="$(O_LFLAGS) $(LIBS)" CXXFLAGS="$(O_CXXFLAGS)" mkoctfile *.cpp -o $(NAME).oct $(INC)  -v
+
+staticlinks: KDTreeDeleteAll.oct KDTreeSearch.oct KDTreeHistogram.oct KDTreeCreate.oct

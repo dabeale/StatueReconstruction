@@ -1,0 +1,11 @@
+include ../../Octave.mk
+
+NAME := nneighboursoct
+
+LIBS := $(LIB) -lKDTree
+	
+standard: oct  NearestNeighbours.cpp Rotation.cpp Morton.cpp
+	 CC="$(O_CC)" CXX="$(O_CXX)" DL_LD="$(O_CXX)" LFLAGS="$(O_LFLAGS) $(LIBS)" CXXFLAGS="$(O_CXXFLAGS) -D_GLIBCXX_DEBUG " mkoctfile *.cpp -o $(NAME).oct $(INC)  -v
+
+staticlinks: NNCreate.oct NNSearch.oct NNDeleteAll.oct NNSearchRadius.oct
+
