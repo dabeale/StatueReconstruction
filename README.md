@@ -38,6 +38,7 @@ Reselect the "Annotations" radio button in the left hand panel, and choose a pen
 
 Do the same thing for the background and then change views using the slider at the bottom of the interface. It is better to select views which are different in terms of colour and angle in order to maximise variances in the probability distributions. Repeat the process for the new view, as described above.
 
+<img src="doc/Annotations.png" width="500px">
 ![The annotated model](doc/Annotations.png "The annotated model" | width=500)
 
 Once all of the necessary views have been annotated click on the "Compute Model" button on the left hand panel. While the models are being computed output is printed to stdout. Once the computation has completed the program will automatically switch to the "Segmentation" view mode, which can be changed using the radio buttons on the left. View all of the segmentations using the slider. 
