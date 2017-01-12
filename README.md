@@ -28,7 +28,7 @@ Inside the data folder there is an example point cloud with calibrated images, w
 ### The Segmentation GUI
 Once the code has compiled open the GUI.app application in the build directory (build/bin/GUI.app). 
 
-->![Image of the interface](doc/Interface.png "The interface"){: width=500px}<-
+![Image of the interface](doc/Interface.png "The interface"){: width=500px}
 
 First, open the images by selecting File->open. You will see an interface like the one above. Secondly, open the ply file in File->Load Mesh, and then the cameras using File->Load Cameras.
 
@@ -38,7 +38,7 @@ Reselect the "Annotations" radio button in the left hand panel, and choose a pen
 
 Do the same thing for the background and then change views using the slider at the bottom of the interface. It is better to select views which are different in terms of colour and angle in order to maximise variances in the probability distributions. Repeat the process for the new view, as described above.
 
-->![The annotated model](doc/Annotations.png "The annotated model"){: width=500px}<-
+![The annotated model](doc/Annotations.png "The annotated model"){: width=500px}
 
 Once all of the necessary views have been annotated click on the "Compute Model" button on the left hand panel. While the models are being computed output is printed to stdout. Once the computation has completed the program will automatically switch to the "Segmentation" view mode, which can be changed using the radio buttons on the left. View all of the segmentations using the slider. 
 
@@ -59,6 +59,6 @@ Once this is done the space carving algorithm can be run from this scripts direc
 
 This will output two ply files. One is named Hull.ply and contains the visual hull of the input segmentations. The second file is called PCloud.ply and it is the original point cloud, cleaned, with the normals from the visual hull transferred. One can then run a Poisson reconstruction to obtain a mesh which is closer to the point cloud. The results of this process can be seen below.
 
-->![Visual Hull Reconstructions](doc/FiremanHull.png "Visual hull reconstructions"){: width=500px}<-
-->![Poisson Reconstructions](doc/FiremanPoisson.png "Poisson reconstructions"){: width=500px}<-
+![Visual Hull Reconstructions](doc/FiremanHull.png "Visual hull reconstructions"){: width=500px}
+![Poisson Reconstructions](doc/FiremanPoisson.png "Poisson reconstructions"){: width=500px}
 
