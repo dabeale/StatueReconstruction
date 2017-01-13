@@ -64,9 +64,11 @@ Once this is done the space carving algorithm can be run from this scripts direc
 This will output two ply files. One is named Hull.ply and contains the visual hull of the input segmentations. The second file is called PCloud.ply and it is the original point cloud, cleaned, with the normals from the visual hull transferred. One can then run a Poisson reconstruction to obtain a mesh which is closer to the point cloud. The results of this process can be seen below.
 
 **Visual hull reconstruction**
+
 <img alt="Visual Hull Reconstructions" src="doc/FiremanHull.png" width="400px">
 
 **Poisson reconstruction**
+
 <img alt="Poisson Reconstructions" src="doc/FiremanPoisson.png" width="400px">
 
 ## Results
@@ -74,4 +76,5 @@ This will output two ply files. One is named Hull.ply and contains the visual hu
 The algorithm has been used on a dataset of street objects taken around Bath and Bristol. The results can be seen in the image below.
 
 **Visual hull results**
+
 <img alt="Visual hull result" src="doc/Results.png" width="500px">
