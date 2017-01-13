@@ -7,7 +7,7 @@ Given a collection of calibrated images and a 3D point cloud, one can compute ob
 
 The software is a similar approach to reconstruction as used in [1], although it requires a small amount of user input, and can also uses the objects depth in the segmentation model. The visual hull is computed using a probabilistic object segmentation, which leads to a smoother surface. 
 
-[1] - "Automatic Object Segmentation from Calibrated Images" - Neil Campbell et al. In Proceedings 8th European Conference on Visual Media Production, 2011. 
+[1] - "Automatic Object Segmentation from Calibrated Images" - Neill Campbell et al. In Proceedings 8th European Conference on Visual Media Production, 2011. 
 
 ## Pre-requisites
 
