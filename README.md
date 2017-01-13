@@ -5,7 +5,7 @@ The code provided in this repository was created for the 'Urban Assets' work pac
 
 Given a collection of calibrated images and a 3D point cloud, one can compute object segmentations interactively using the software, and from them compute the visual hull of the object. The software requires a user to highlight the object and background in few images.
 
-The software is a similar approach to reconstruction as used in [1], although it requires a small amount of user input, but also uses the objects depth in the segmentation model. The visual hull is computed using a probabilistic object segmentation, which leads to a smoother surface. 
+The software is a similar approach to reconstruction as used in [1], although it requires a small amount of user input, and can also uses the objects depth in the segmentation model. The visual hull is computed using a probabilistic object segmentation, which leads to a smoother surface. 
 
 [1] - "Automatic Object Segmentation from Calibrated Images" - Neil Campbell et al. In Proceedings 8th European Conference on Visual Media Production, 2011. 
 
@@ -17,6 +17,7 @@ The software requires Mac OSX with Qt5 installed to compile. It also requires th
 
 To compile the software either open the project file in the source directory, and compile from Qt Creator, or run,
 > ./Build.sh
+
 from the base directory.
 
 ## Examples
@@ -46,12 +47,15 @@ If there are any errors which need correcting, switch back to "Annotation" mode 
 
 Finally, save the segmentations by clinking on the file menu File->Save Segmentations. A dialogue will appear asking for the directory in which to save the segmentations. The software will automatically save the segmentations images in the format 'Segmentation%.02d.png'. Some examples have been uploaded in to the data/segmentations folder.
 
+Note: The software can also be used for colour segmentation without depth if the depth maps are not computed. This will work for a single image and a video.
+
 ### The space carving algorithm
 Once the segmentations are saved, the space carving algorithm can be run. Before execution, one must first create two files containing paths to the segmentation and camera files. There is a script in the 'scripts' folder which automates this. To compute a mesh from the example segmentations, enter the script directory and run,
 > ./GenerateTextFiles.sh ../data/segmentations/ ../data/cameras/
 
 There will be files named Cameras.txt and Images.txt. Run,
 > cat Cameras.txt Images.txt 
+
 to make sure that they contain the full paths to the files, and that they are pointing to files which exist.
 
 Once this is done the space carving algorithm can be run from this scripts directory as follows,
@@ -59,6 +63,15 @@ Once this is done the space carving algorithm can be run from this scripts direc
 
 This will output two ply files. One is named Hull.ply and contains the visual hull of the input segmentations. The second file is called PCloud.ply and it is the original point cloud, cleaned, with the normals from the visual hull transferred. One can then run a Poisson reconstruction to obtain a mesh which is closer to the point cloud. The results of this process can be seen below.
 
-<img alt="Visual Hull Reconstructions" src="doc/FiremanHull.png" width="500px">
-<img alt="Poisson Reconstructions" src="doc/FiremanPoisson.png" width="500px">
+**Visual hull reconstruction**
+<img alt="Visual Hull Reconstructions" src="doc/FiremanHull.png" width="400px">
 
+**Poisson reconstruction**
+<img alt="Poisson Reconstructions" src="doc/FiremanPoisson.png" width="400px">
+
+## Results
+
+The algorithm has been used on a dataset of street objects taken around Bath and Bristol. The results can be seen in the image below.
+
+**Visual hull results**
+<img alt="Visual hull result" src="doc/Results.png" width="500px">
