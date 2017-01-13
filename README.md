@@ -29,7 +29,7 @@ Inside the data folder there is an example point cloud with calibrated images, w
 ### The Segmentation GUI
 Once the code has compiled open the GUI.app application in the build directory (build/bin/GUI.app). 
 
-<img alt="Image of the interface" src="doc/Interface.png" width="500px">
+<img alt="Image of the interface" src="doc/Interface.png" width="250px">
 
 First, open the images by selecting File->open. You will see an interface like the one above. Secondly, open the ply file in File->Load Mesh, and then the cameras using File->Load Cameras.
 
