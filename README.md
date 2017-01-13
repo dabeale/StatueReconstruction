@@ -11,7 +11,14 @@ The software is a similar approach to reconstruction as used in [1], although it
 
 ## Pre-requisites
 
-The software requires Mac OSX with Qt5 installed to compile. It also requires the Eigen library, which is included with the software.
+The software requires the following in order to compile,
+
+* Mac OSX with Qt5.
+* OpenCV installed in /usr/local. The homebrew version has been tested and works.
+
+The following libraries are included with this software. Be sure to take note of their relevant licenses,
+* The Eigen library, located in src/Eigen.
+* Boykov and Kolmogorovs Max-Flow implementation, located in src/MaxFlow.
 
 ## Installation
 
