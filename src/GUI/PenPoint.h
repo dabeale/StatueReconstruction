@@ -27,6 +27,8 @@
 #include <QPen>
 #include <QPoint>
 
+namespace SegmentationGUI
+{
 /**
  * @brief The PenPoint struct
  * Contains  details of the pen, such as colour and size,
@@ -35,10 +37,22 @@
 struct PenPoint
 {
 public:
+    /**
+     * @brief PenPoint
+     * The default constructor
+     */
     PenPoint();
-    PenPoint( Qt::GlobalColor colour, uint32_t alpha, QPoint point );
-    QPen m_pen;
-    QPoint m_point;
-};
 
+    /**
+     * @brief PenPoint
+     * Construct the penpoint with  a colour, an alpha value and its location
+     * @param colour The colour of the drawn point
+     * @param alpha The alpha value
+     * @param point The location of the point
+     */
+    PenPoint( Qt::GlobalColor colour, uint32_t alpha, QPoint point );
+    QPen m_pen;     ///< The pen information
+    QPoint m_point; ///< The location of the drawn point
+};
+}
 #endif // PENPOINT_H

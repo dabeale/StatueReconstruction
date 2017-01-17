@@ -27,14 +27,34 @@
 #include <stdint.h>
 #include <limits>
 
+namespace KD
+{
+
+/**
+ * @brief The KeyPair struct
+ * A struct for the elements of a KD tree. It contains the index in to the
+ * data matrix and the distance from the test point.
+ */
 struct KeyPair
 {
 public:
+    /**
+     * @brief KeyPair
+     * Construct an empty KeyPair
+     */
     KeyPair() : distance(std::numeric_limits<double>::max()), index(0) {}
+
+    /**
+     * @brief KeyPair
+     * Construct a KeyPair with a distance and an index.
+     * @param d The distance
+     * @param ind The index
+     */
     KeyPair( double d , uint32_t ind) : distance(d), index(ind) {}
 
-    double distance;
-    uint32_t index;
+    double distance;  ///< A distance
+    uint32_t index;   ///< An index
 };
+}
 #endif // KEYPAIR_H
 

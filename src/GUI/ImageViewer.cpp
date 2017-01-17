@@ -1,5 +1,7 @@
 #include "ImageViewer.hpp"
 
+namespace SegmentationGUI
+{
 ImageViewer::ImageViewer(QString &startDirectory, QWidget *parent) :
     QLabel(parent),
     m_x(0),
@@ -39,7 +41,7 @@ void ImageViewer::UpdateMRFParameters()
     m_sgm.GetParameters().m_Alpha = {m_mrfparamswindow->GetAlpha(),m_mrfparamswindow->GetAlpha() };
     m_sgm.GetParameters().m_type = (m_mrfparamswindow->GetType() == MRFParametersWindow::GraphCut) ? SegmentationModelParameters::GraphCut : SegmentationModelParameters::ICM;
     m_sgm.GetParameters().m_NSample = m_mrfparamswindow->GetSampleN();
-    m_sgm.GetParameters().m_edgeWeight = m_mrfparamswindow->GetPairWiseEight();
+    m_sgm.GetParameters().m_edgeWeight = m_mrfparamswindow->GetPairWiseWeight();
     m_sgm.GetParameters().m_terminalWeight = m_mrfparamswindow->GetUnaryWeight();
 }
 
@@ -291,46 +293,6 @@ void ImageViewer::paintEvent(QPaintEvent *e)
     QLabel::paintEvent(e);
 }
 
-void ImageViewer::SaveEdges()
-{
-    m_msg.print() << "Compute Edges" << std::endl;
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                     m_startDirectory,
-                     QFileDialog::ShowDirsOnly
-                     | QFileDialog::DontResolveSymlinks);
-    m_startDirectory = dir;
-
-    bool ok;
-    double scale = QInputDialog::getDouble(this, tr("QInputDialog::getDouble()"),
-                                        tr("Scale"), 30,
-                                        -10000,
-                                        10000,
-                                        1, &ok);
-    int perc =  0;
-    if( ok && m_imageInfos.size() > 0 )
-    {
-        for( const ImageInfo imageinfo : m_imageInfos )
-        {
-            if( imageinfo.m_ForegroundPoints.size() > 0 ||
-                imageinfo.m_BackgroundPoints.size() > 0 ||
-                imageinfo.m_EdgePoints.size() > 0 )
-            {
-                // Decompose the filename
-                QStringList qsl = imageinfo.m_filename.split('/');
-                qsl = qsl.back().split('.');
-
-                std::cout << (100*(perc++)) / m_imageInfos.size() << " pc complete \r";
-                std::cout.flush();
-            }
-        }
-        std::cout << "100 pc complete" << std::endl;
-    }
-    else
-    {
-        m_msg.print() << "Command exit" << std::endl;
-    }
-}
-
 void ImageViewer::DumpToOctave()
 {
     m_msg.print() << "Dump points to octave file " << std::endl;
@@ -446,7 +408,6 @@ void ImageViewer::OpenFile()
         repaint();
         SetPaintInitialised(true);
 
-        emit ResizeEvent();
         emit ImagesLoaded();
     }
 }
@@ -673,4 +634,5 @@ void ImageViewer::ShowDepthMap()
     m_msg.print() << "Displaying depth map" << std::endl;
     m_viewMode = DepthMap;
     RefreshImage();
+}
 }

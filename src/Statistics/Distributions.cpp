@@ -1,6 +1,6 @@
 #include "Distributions.h"
 
-namespace Distribution
+namespace Math
 {
 void NormaliseLogarithmicMatrix(double* R, double *sum, const uint32_t K, const uint32_t N)
 {
@@ -94,7 +94,7 @@ std::vector< double > LogMvnPdf( const Math::Matrix& data, const Math::Matrix& M
 {
     if(data.Rows() != Mu.Rows() || data.Rows() != Sigma.Rows() || Sigma.Rows() != Sigma.Cols())
     {
-        std::cerr << "Distribution::LogMvnPdf:: The dimensions are incorrect" << std::endl;
+        std::cerr << "Math::LogMvnPdf:: The dimensions are incorrect" << std::endl;
         assert(0);
     }
 
@@ -111,7 +111,7 @@ std::vector< double > LogMvnPdf( const Math::Matrix& data, const Math::Matrix& M
     std::vector<double> p(N, 0);
     if(proddiag == 0)
     {
-        std::cerr << "Distribution::LogMvnPdf:: warning - Cholesky returned a zero diagonal" << std::endl;
+        std::cerr << "Math::LogMvnPdf:: warning - Cholesky returned a zero diagonal" << std::endl;
         return p;
     }
 
@@ -135,7 +135,7 @@ std::vector< double > MvnPdf( const Math::Matrix& data, const Math::Matrix& Mu, 
 {
     if(data.Rows() != Mu.Rows() || data.Rows() != Sigma.Rows() || Sigma.Rows() != Sigma.Cols())
     {
-        std::cerr << "Distribution::MvnPdf:: The dimensions are incorrect" << std::endl;
+        std::cerr << "Math::MvnPdf:: The dimensions are incorrect" << std::endl;
         assert(0);
     }
 
@@ -152,7 +152,7 @@ std::vector< double > MvnPdf( const Math::Matrix& data, const Math::Matrix& Mu, 
 
     if(Sigma.det() < 1e-16)
     {
-        std::cerr << "Distribution::MvnPdf:: warning - Sigma is ill conditioned" << std::endl;
+        std::cerr << "Math::MvnPdf:: warning - Sigma is ill conditioned" << std::endl;
         return p;
     }
 
@@ -180,7 +180,7 @@ std::vector< double > StudentT3(const Math::Matrix& data, const Math::Matrix& Si
 
     if( Sigma.Rows() != K || Sigma.Cols() != K || Mu.Rows() != K || Mu.Cols() != 1 )
     {
-        std::cerr << "Distribution::StudentT3:: the dimensions are incorrect" <<std::endl;
+        std::cerr << "Math::StudentT3:: the dimensions are incorrect" <<std::endl;
         assert(0);
     }
 
@@ -216,7 +216,7 @@ std::vector< double > LatentGaussianWishart(const Math::Matrix& data, const uint
 
     if(Mu.Rows() != K || Precision.Rows() != K || Precision.Cols() != K || Mu.Cols() != 1)
     {
-        std::cerr << "Distribution::LatentGaussianWishart:: Dimensions do not match" << std::endl;
+        std::cerr << "Math::LatentGaussianWishart:: Dimensions do not match" << std::endl;
         assert(0);
     }
 

@@ -30,6 +30,12 @@
 #include "Carving.h"
 #include "Matrix.h"
 
+/**
+ * @brief readNameFile
+ * Read the a collection of filenames from a newline delimited file.
+ * @param filename The path to the file
+ * @return A list of filenames
+ */
 std::list< std::string > readNameFile( const std::string& filename)
 {
     std::fstream fs (filename, std::fstream::in);
@@ -46,12 +52,50 @@ std::list< std::string > readNameFile( const std::string& filename)
     return outputlist;
 }
 
+/**
+ * @brief print_usage
+ * Print the usage of the software
+ * @param msg An interface to the output stream.
+ */
 void print_usage( Stream::Message& msg)
 {
     msg.printerr( " Usage:" );
     msg.printerr( "    ./Carving cameras.txt images.txt pointcloud.ply outputfolder (bundlerformat=1 dopcloudoptimisation=0)" );
 }
 
+/**
+ * @brief Carving
+ * This executable is for computing a collection of space carving algorithms given a camera
+ * collection, a point cloud and corresponding segmentations. There is documentation in the
+ * Carve namespace which details how each of the functions work.
+ *
+ * The minimum input requirements are,
+ *  1. A textfile containing the locations of the camera files ( either Bundler or Octave format)
+ *     Each filename must appear on a seperate line, with no spaces.
+ *  2. A textfile containing the location of the segmentations. The image files must be readable
+ *     by opencv, which covers most file types, as long as they have been compiled with opencv.
+ *     Files such as raw and hdr images may not work properly. There must be the same number of
+ *     elements as in the camera text file, and the must correspond to one another.
+ *  3. A pointcloud, which must be in the stanford ply format. This point cloud does not need any other
+ *     attributes than the vertices.
+ *  4. An output folder to store the output meshes. The software will output a maximum of three meshes
+ *     depending on the input arguments.
+ *  5. (optional) A value 0 or 1 indicating whether to use the octave or Bundler matrix formats, respectively.
+ *     This value is one by default.
+ *  6. (optional) A value 0 or 1 to indicate whether do do a Hoppe / Visual Hull blend, as documented in
+ *     the Carve namespace.
+ *
+ * The software will output,
+ *  - Hull.ply which is the visual hull of the object
+ *  - PCloud.ply which is the original point cloud, with all of the points outside of the visual hull removed
+ *    and the normals transfered from the visual hull. This allows for a Poisson reconstruction.
+ *  - Mesh.ply which is the surface found using the Hoppe / Visual Hull blend.
+ *
+ *
+ * @param argv
+ * @param args
+ * @return 0 on success
+ */
 int main(int argv, char** args)
 {
     Stream::Message msg( "Visual Hull" );

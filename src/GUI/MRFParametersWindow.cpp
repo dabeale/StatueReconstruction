@@ -1,5 +1,7 @@
 #include "MRFParametersWindow.h"
 
+namespace SegmentationGUI
+{
 MRFParametersWindow::MRFParametersWindow(QWidget *parent ) :
     QMainWindow(parent),
     m_segtypeGroup(new QGroupBox(tr("&Segmentation type"), this)),
@@ -61,4 +63,5 @@ void MRFParametersWindow::CloseWindow()
 MRFParametersWindow::~MRFParametersWindow()
 {
 
+}
 }

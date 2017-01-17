@@ -706,7 +706,6 @@ namespace Math
     }
     */
 
-    // This code was taken from paulborke.net
     double Matrix::det() const
     {
         assert(m_N == m_N);
@@ -797,7 +796,6 @@ namespace Math
         return temp;
     }
 
-    // from http://rosettacode.org/wiki/LU_decomposition
     std::tuple<Matrix, Matrix, Matrix> Matrix::LU() const
     {
         assert(m_M == m_N);
@@ -920,22 +918,6 @@ namespace Math
     }
 
 
-    /*
-     * svdcomp - SVD decomposition routine.
-     * Takes an mxn matrix a and decomposes it into udv, where u,v are
-     * left and right orthogonal transformation matrices, and d is a
-     * diagonal matrix of singular values.
-     *
-     * This routine is adapted from svdecomp.c in XLISP-STAT 2.1 which is
-     * code from Numerical Recipes adapted by Luke Tierney and David Betz.
-     *
-     * Input to dsvd is as follows:
-     *   a = mxn matrix to be decomposed, gets overwritten with u
-     *   m = row dimension of a
-     *   n = column dimension of a
-     *   w = returns the vector of singular values of a
-     *   v = returns the right orthogonal transformation matrix
-    */
     std::tuple<Matrix,Matrix,Matrix> Matrix::svd() const
     {
         bool dotranspose;
@@ -1329,7 +1311,6 @@ namespace Math
         return x;
     }
 
-    // This code was adapted from rosettacode.net
     std::pair<Matrix, Matrix> Matrix::QR() const
     {
         std::vector<Matrix> q(m_M);
@@ -1380,7 +1361,6 @@ namespace Math
         return std::make_pair(Q,R);
     }
 
-    // This code is an implementation of the wikipedia article
     std::pair<Matrix, Matrix> Matrix::eig() const
     {
         assert( m_M == m_N );
@@ -1427,11 +1407,6 @@ namespace Math
     #define ROTATE(A,i,j,k,l) g=A(i,j);h=A(k,l);A(i,j)=g-s*(h+g*tau);\
         A(k,l)=h+s*(g-h*tau);
 
-    // This code is an adaptation of the numerical recipes version
-    // Originall written by
-    //  David Squire (DMS), David.Squire@infotech.monash.edu.au
-    // but adapted for the matrix format
-    //
     std::pair<Matrix, Matrix> Matrix::Jacobi() const
     {
         assert(m_M == m_N);
@@ -1544,10 +1519,6 @@ namespace Math
 
     #undef ROTATE
 
-    // This is an adaptation of the rosettacode.net implementation.
-    // The adaptation for positive semidefinite matrices is take from
-    // 'Singular Values using Cholesky Decomposition' - Krishnamoorthy and Kocagoez
-    // 'Analysis of the Cholesky Decomposition of a Semi-definite Matrix' - N. J. Higham
     Matrix Matrix::chol() const
     {
         assert(m_N == m_M);

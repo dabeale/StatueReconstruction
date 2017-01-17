@@ -32,7 +32,7 @@
 
 #include "Matrix.h"
 
-namespace Distribution
+namespace Math
 {
     /**
      * @brief NormaliseLogarithmicMatrix
@@ -43,6 +43,13 @@ namespace Distribution
      * @param N - The number of columns
      */
     void NormaliseLogarithmicMatrix(double* R, double *sum, const uint32_t K, const uint32_t N);
+
+    /**
+     * @brief NormaliseLogarithmicMatrix
+     * Normalise a logarithmic matrix while avoiding numerical underflow.
+     * @param R - The KxN column major data matrix
+     * @param sum - The rowwise sums of the data matrix
+     */
     Math::Matrix NormaliseLogarithmicMatrix(const Math::Matrix& R, std::vector<double>& sum);
 
     /**
@@ -56,6 +63,7 @@ namespace Distribution
      * @param K - The number of rows ( dimensionality )
      */
     void distance2(const double* data1, const double* data2, double* D,  const uint32_t N1, const uint32_t N2, const uint32_t K); ///< The distance 2 function
+
 
     std::vector< double > LogMvnPdf( const Math::Matrix& data, const Math::Matrix& Mu, const Math::Matrix& Sigma  );
     std::vector< double > MvnPdf( const Math::Matrix& data, const Math::Matrix& Mu, const Math::Matrix& Sigma  );

@@ -22,11 +22,9 @@ DEPENDPATH += ../Matrix \
               ../KDTree
 
 SOURCES += \
-    NearestNeighbours.cpp \
-    Rotation.cpp
+    NearestNeighbours.cpp
 
 HEADERS += \
     NearestNeighbours.h \
-    Rotation.h \
     KeyPair.h
 

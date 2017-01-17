@@ -335,7 +335,7 @@ std::vector<double> Mesh::GetNormal( const uint32_t i) const
 
 void Mesh::ApplyNormals( const Mesh& mesh, const NearestNeighbours& nn)
 {
-    std::vector<KeyPair> kp;
+    std::vector<KD::KeyPair> kp;
     m_normals.resize( m_NVerts*3 );
 
 //#pragma omp parallel for

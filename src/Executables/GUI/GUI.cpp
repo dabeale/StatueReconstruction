@@ -31,13 +31,22 @@
 
 QTime *gTime = NULL;
 
+/**
+ * @brief main
+ *
+ * A command line executable to run the segmentation GUI.
+ *
+ * @param argc
+ * @param argvv
+ * @return
+ */
 int main(int argc, char *argvv[])
 {
     std::cout << "Segmentation GUI" << std::endl << std::endl;
 
     QApplication a(argc, argvv);
 
-    MainWindow w;
+    SegmentationGUI::MainWindow w;
     w.show();
     return a.exec();
 }

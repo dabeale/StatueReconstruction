@@ -45,24 +45,6 @@ Pointd3 VertexInterp(const double& isolevel, const Pointd3& p1, const Pointd3& p
 
     return(p);
 }
-/*
-void MarchingCubes::ComputeExtremalValues()
-{
-    for(uint8_t i=0; i<3;i++)
-    {
-        m_max[i]=std::numeric_limits<double>::min();
-        m_min[i]=std::numeric_limits<double>::max();
-    }
-
-    for(uint32_t k=0; k<3*m_N; k+=3)
-    {
-        for(uint8_t i=0; i<3;i++)
-        {
-            m_max[i] = ( v[k+i] > m_max[i] ) ? v[k+i] : m_max[i];
-            m_min[i] = ( v[k+i] < m_min[i] ) ? v[k+i] : m_min[i];
-        }
-    }
-}*/
 
 MarchingCubes::MarchingCubes( const double isoval , const double npoints, const double max[3], const double min[3]) :
     m_isoval(isoval), m_npoints(npoints),
@@ -118,6 +100,62 @@ inline void cross(const double* a, const double* b, double cr[3] )
   cr[2] = a[0]*b[1] - a[1]*b[0];
 }
 #endif
+
+void MarchingCubes::PolygoniseCube(
+        const GridCell &g, std::vector<Pointd3>& pointList,
+        std::vector<Pointi3>& faceList, uint32_t cindex)
+{
+    /* Find the vertices where the surface intersects the cube */
+    int map[12];
+    //Create the triangles
+    if(!m_doboolfunc || (m_doboolfunc && m_boolFunc(&g.p[0].p[0])))
+    {
+        uint32_t vertind = pointList.size();
+        uint32_t vit=0;
+        for(j=0; j<12; j++)
+        {
+            if (edgeTable[cindex] & pw[j])
+            {
+                Pointd3 pd3 = VertexInterp(m_isoval,g.p[wq[j]],g.p[ww[j]],g.val[wq[j]],g.val[ww[j]]);
+                pointList.push_back(pd3);
+                map[j]=vit;
+                vit++;
+            }
+        }
+
+        for (i=0;triTable[cindex][i]!=-1;i+=3)
+        {
+            Pointi3 pi3;
+            pi3.p[0] = vertind + map[triTable[cindex][i  ]];
+            pi3.p[1] = vertind + map[triTable[cindex][i+1]];
+            pi3.p[2] = vertind + map[triTable[cindex][i+2]];
+            faceList.push_back(pi3);
+#ifdef RENDER_USING_GLUT //this could be much faster!!
+            if(m_renderToScreen)
+            {
+                double a[3], b[3], cr[3], nm;
+                int k,l;
+                for( k=0; k<3; k++)
+                {
+                    for( l=0;l<3;l++)
+                    {
+                        a[l] = pointList[pi3.p[(k+1)%3]].p[l]-pointList[pi3.p[k]].p[l];
+                        b[l] = pointList[pi3.p[(k+2)%3]].p[l]-pointList[pi3.p[k]].p[l];
+                    }
+                    cross(a,b,cr);
+                    nm = std::sqrt(cr[0]*cr[0] + cr[1]*cr[1] + cr[2]*cr[2]);
+                    glNormal3f(cr[0]/nm,cr[1]/nm,cr[2]/nm);
+
+                    glVertex3f(pointList[pi3.p[k]].p[0],
+                               pointList[pi3.p[k]].p[1],
+                               pointList[pi3.p[k]].p[2]);
+                }
+            }
+#endif
+        }
+    }
+}
+
 
 void MarchingCubes::PolygoniseCube(
         const GridCell &g,
@@ -355,61 +393,6 @@ void MarchingCubes::MarchKD(const std::function<double(const double*)>& fun)
     KD( gc, 0, ipt, ifc, vertindex, fun);
     m_pointList.resize(ipt-m_pointList.begin());
     m_faceList.resize(ifc-m_faceList.begin());
-}
-
-void MarchingCubes::PolygoniseCube(
-        const GridCell &g, std::vector<Pointd3>& pointList,
-        std::vector<Pointi3>& faceList, uint32_t cindex)
-{
-    /* Find the vertices where the surface intersects the cube */
-    int map[12];
-    //Create the triangles
-    if(!m_doboolfunc || (m_doboolfunc && m_boolFunc(&g.p[0].p[0])))
-    {
-        uint32_t vertind = pointList.size();
-        uint32_t vit=0;
-        for(j=0; j<12; j++)
-        {
-            if (edgeTable[cindex] & pw[j])
-            {
-                Pointd3 pd3 = VertexInterp(m_isoval,g.p[wq[j]],g.p[ww[j]],g.val[wq[j]],g.val[ww[j]]);
-                pointList.push_back(pd3);
-                map[j]=vit;
-                vit++;
-            }
-        }
-
-        for (i=0;triTable[cindex][i]!=-1;i+=3)
-        {
-            Pointi3 pi3;
-            pi3.p[0] = vertind + map[triTable[cindex][i  ]];
-            pi3.p[1] = vertind + map[triTable[cindex][i+1]];
-            pi3.p[2] = vertind + map[triTable[cindex][i+2]];
-            faceList.push_back(pi3);
-#ifdef RENDER_USING_GLUT //this could be much faster!!
-            if(m_renderToScreen)
-            {
-                double a[3], b[3], cr[3], nm;
-                int k,l;
-                for( k=0; k<3; k++)
-                {
-                    for( l=0;l<3;l++)
-                    {
-                        a[l] = pointList[pi3.p[(k+1)%3]].p[l]-pointList[pi3.p[k]].p[l];
-                        b[l] = pointList[pi3.p[(k+2)%3]].p[l]-pointList[pi3.p[k]].p[l];
-                    }
-                    cross(a,b,cr);
-                    nm = std::sqrt(cr[0]*cr[0] + cr[1]*cr[1] + cr[2]*cr[2]);
-                    glNormal3f(cr[0]/nm,cr[1]/nm,cr[2]/nm);
-
-                    glVertex3f(pointList[pi3.p[k]].p[0],
-                               pointList[pi3.p[k]].p[1],
-                               pointList[pi3.p[k]].p[2]);
-                }
-            }
-#endif
-        }
-    }
 }
 
 void MarchingCubes::March(const std::function<double(const double*)>& fun)

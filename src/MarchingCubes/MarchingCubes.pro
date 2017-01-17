@@ -17,10 +17,8 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += marchingcubes.cpp \
-    mlists.cpp \
-    render.cpp
+    mlists.cpp
 
 HEADERS += \ 
-    marchingcubes.h \
-    render.h
+    marchingcubes.h
 

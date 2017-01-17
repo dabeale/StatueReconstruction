@@ -41,86 +41,95 @@
 #include <cmath>
 #include <sstream>
 
-
+namespace SegmentationGUI
+{
 /**
  * @brief The ImageViewer class
- * Extends QLabel into an object which can deal with
- * images and a collection of points drawn on it.
+ * Extends QLabel into an object which can deal with images and a collection of points drawn on it.
  */
 class ImageViewer : public QLabel
 {
     Q_OBJECT
 
 public:
-    typedef std::vector< PenPoint > PointBuffer; ///< A vector of drawn point
-    typedef std::vector< ImageInfo > ImageList; ///< Typedef
+    typedef std::vector< PenPoint > PointBuffer; ///< A vector of drawn PenPoints
+    typedef std::vector< ImageInfo > ImageList; ///< A vector of ImageInfos
 
+    /**
+     * @brief ImageViewer
+     * An explicit constructor for the ImageViewer.
+     * @param startDirectory This directory indicates where the file input dialoges should start.
+     * @param parent the parent QWidget
+     */
     ImageViewer(QString& startDirectory, QWidget *parent = 0);
 
-    void SetPaintInitialised(const bool initialised); ///< Allow points to be drawn on the ImageViewer.
-    void SetColor(Qt::GlobalColor color); ///< Set the colour of the brush
-    void SetSize(uint32_t size); ///< Set the size of the brush
-    void RepaintPointBuffer(); ///< Repaint all of the points in the point buffer
-    bool AddImages(const QStringList& fileNames);
-    void InitialiseBuffer();
-    void RefreshImage();
-    uint32_t GetNumberOfImages() const;
-    ImageList& GetImageInfos();
+    void SetPaintInitialised(const bool initialised);    ///< \brief Allow points to be drawn on the ImageViewer.
+    void SetColor(Qt::GlobalColor color);                ///< \brief Set the colour of the brush
+    void SetSize(uint32_t size);                         ///< \brief Set the size of the brush
+    void RepaintPointBuffer();                           ///< \brief Repaint all of the points in the point buffer
+    bool AddImages(const QStringList& fileNames);        ///< \brief Add images to the ImageList
+    void InitialiseBuffer();                             ///< \brief Initialise the object
+    void RefreshImage();                                 ///< \brief Repaint
+    uint32_t GetNumberOfImages() const;                  ///< \brief Return the number of images in the list.
+    ImageList& GetImageInfos();                          ///< \brief Return a reference to the ImageList
 
-    void GetDimensions( uint32_t& height, uint32_t& width ) const;
+    void GetDimensions( uint32_t& height, uint32_t& width ) const; ///< \brief Get the file width and height
 
 public slots:
-    void OpenFile();
-    void DumpToOctave();
-    void SaveEdges();
-    void CycleLeft();
-    void CycleRight();
-    void SetPosition(int frame);
-    void Clear();
-    void ClearAll();
-    void Select();
-    void SelectForeground();
-    void SelectBackground();
-    void ComputeModel();
-    void RunMRF();
-    void ComputeDepthMaps();
-    void ShowAnnotations();
-    void ShowSegmentation();
-    void ShowImage();
-    void ShowBoth();
-    void ShowDepthMap();
-    void SaveSegmentation();
-    void LoadMesh();
-    void LoadCameras();
-    void ShowParametersWindow();
+    void OpenFile();                ///< \brief Open a file from disk
+    void DumpToOctave();            ///< \brief Dump the user selected points to disk (in octave format)
+    void CycleLeft();               ///< \brief Select the neighbouring image to the left for viewing
+    void CycleRight();              ///< \brief Select the neighbouring image to the right for viewing
+    void SetPosition(int frame);    ///< \brief Set the viewed image to 'frame'
+    void Clear();                   ///< \brief Clear the user annotations from the current image
+    void ClearAll();                ///< \brief Clear all of the user annotations.
+    void Select();                  ///< \brief Set the selection tool to the 'edge' tool
+    void SelectForeground();        ///< \brief Set the selection tool to be the 'foreground' tool.
+    void SelectBackground();        ///< \brief Set the selection tool to be the 'background' tool
+    void ComputeModel();            ///< \brief Compute the statistical model given all of the annotations
+    void RunMRF();                  ///< \brief Run only the MRF calculation, without computing the model.
+    void ComputeDepthMaps();        ///< \brief Compute the depth maps (requires cameras and point cloud to be loaded)
+    void ShowAnnotations();         ///< \brief Selects the 'Annotations' view mode.
+    void ShowSegmentation();        ///< \brief Selects the 'Segmentation' view mode
+    void ShowImage();               ///< \brief Selects the 'Image' view mode
+    void ShowBoth();                ///< \brief Selects the 'Segmentations and Annotations' view mode
+    void ShowDepthMap();            ///< \brief Selects the 'Depth Map' view mode
+    void SaveSegmentation();        ///< \brief Save the segmentations to disk
+    void LoadMesh();                ///< \brief Load the point cloud / mesh from file
+    void LoadCameras();             ///< \brief Load the cameras from a camera file
+    void ShowParametersWindow();    ///< \brief Show the MRF parameters window.
 
 private slots:
     void mousePressEvent(QMouseEvent *e);
     void mouseReleaseEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
     void paintEvent(QPaintEvent *e);
-    void UpdateMRFParameters();
+    void UpdateMRFParameters();     ///< \brief Update the MRF parameters from the window
 
 signals:
-    void ResizeEvent();
-    void ImagesLoaded();
-    void ModelComputed();
+    void ImagesLoaded(); ///< Emitted when the images have been loaded
+    void ModelComputed(); ///< Emitted when the model has been computed
 
 private:
-    void DrawAnnotation(QPainter &painter); ///< Draw the annotations
+    void DrawAnnotation(QPainter &painter); ///< \brief Draw the user annotations on to the current image
 
     Mesh m_3dmesh; ///< A mesh or point cloud
     std::vector<Math::Matrix> m_ProjectionMatrices; ///< The projection matrices for each camera
 
-    int m_x;  ///< Current dragged mouse x position
-    int m_y;  ///< Current dragged mouse y position
-    int m_mousex;
-    int m_mousey;
+    int m_x;         ///< Becomes m_mousex when the mouse is outside of a radius of m_x
+    int m_y;         ///< Becomes m_mousey when the mouse is outside of a radius of m_y
+    int m_mousex;    ///< Current dragged mouse x position
+    int m_mousey;    ///< Current dragged mouse y position
     uint32_t m_size; ///< Size of the pointer
 
-    bool m_latch; ///< Only allow a point to be drawn once
+    bool m_latch;            ///< Only allow a blob to be drawn once within a radius of m_x, m_y
     bool m_paintInitialised; ///< If true the ImageViewer will start painting to the canvas
 
+    /**
+     * @brief The ViewMode enum
+     * An enumeration of view modes. It identifies what is
+     * shown in the image viewer and also which user annotations are shown.
+     */
     enum ViewMode
     {
         Image,
@@ -130,39 +139,44 @@ private:
         DepthMap
     };
 
-    ViewMode m_viewMode; ///< Show segmentation
+    ViewMode m_viewMode;    ///< The currently selected view mode.
 
     Qt::GlobalColor m_color; ///< Color of cursor
 
-    ImageList m_imageInfos; ///< A list of images and other relevant info
+    ImageList m_imageInfos;        ///< A list of images and other relevant info
     ImageList::iterator m_current; ///< Pointer to the currently viewed image
 
+    /**
+     * @brief The SketchType enum
+     * An enumeration of user selection tools.
+     */
     enum SketchType
     {
         Foreground,
         Background,
         Edge
     };
-    SketchType m_sketchtype;
+    SketchType m_sketchtype; ///< The currently selected sketch type
 
-    void SetSketchType( SketchType type );
+    void SetSketchType( SketchType type ); ///< \brief Set the sketch type
 
     template<class List, class Iterator>
     void CycleIteratorLeft(Iterator& iterator, List& imageList); ///< Cycle the image left
     template<class List, class Iterator>
     void CycleIteratorRight(Iterator& iterator, List &imageList); ///< Cycle the image right
 
-    QString& m_startDirectory;
+    QString& m_startDirectory; ///< The directory to initialise the input dialogues.
 
-    Stream::Message m_msg;
+    Stream::Message m_msg; ///< The message streaming interface
 
-    bool m_PointsDrawn;
-    bool m_ModelComputed;
-    bool m_depthMapComputed;
+    bool m_PointsDrawn;      ///< True if any points have been drawn on the interface
+    bool m_ModelComputed;    ///< True when the model has been computed
+    bool m_depthMapComputed; ///< True if the depth maps have been computed
 
-    SegmentationModel m_sgm;
+    SegmentationModel m_sgm; ///< The segmentation model
 
-    MRFParametersWindow *m_mrfparamswindow;
+    MRFParametersWindow *m_mrfparamswindow; ///< The MRF parameters window
 };
+}
 
 #endif // IMAGEVIEWER_H

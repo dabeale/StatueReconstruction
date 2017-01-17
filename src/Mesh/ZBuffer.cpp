@@ -143,8 +143,7 @@ namespace Buffer
         }
     }
 
-    // This could be optimised using element operations
-    // there are a large number of copies here
+
     bool InsideTriangle( const BVector& a, const BVector&b, const BVector& c, const BVector& x )
     {
         double ta=0, tb=0, tc=0;

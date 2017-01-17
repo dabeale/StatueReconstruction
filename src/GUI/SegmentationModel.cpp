@@ -1,5 +1,7 @@
 #include "SegmentationModel.h"
 
+namespace SegmentationGUI
+{
 inline void NormaliseField(Math::Matrix& fprob, Math::Matrix& bprob)
 {
     for(uint32_t i=0; i<fprob.Cols(); ++i)
@@ -80,8 +82,8 @@ void SegmentationModel::RunSegmentation(double variance, double alpha)
     Math::Matrix Lambda = m_ForegroundColours.mean(1);
     Math::Matrix R = (variance*m_ForegroundColours*m_ForegroundColours.transpose()).inv();
     uint32_t Beta = m_ForegroundColours.Rows() + 2;
-    Sample::IGMMHyperparameters hypesfg = {Lambda, R, alpha, Beta};
-    Sample::IGMM igmmfg( m_ForegroundColours, hypesfg );
+    Math::IGMMHyperparameters hypesfg = {Lambda, R, alpha, Beta};
+    Math::IGMM igmmfg( m_ForegroundColours, hypesfg );
     igmmfg.Estimate(1e-13, 100);
     igmmfg.ConditionBestSigmas();
 
@@ -89,8 +91,8 @@ void SegmentationModel::RunSegmentation(double variance, double alpha)
     Lambda = m_BackgroundColours.mean(1);
     R = (variance*m_BackgroundColours*m_BackgroundColours.transpose()).inv();
     Beta = m_BackgroundColours.Rows() + 2;
-    Sample::IGMMHyperparameters hypesbg = {Lambda, R, alpha, Beta};
-    Sample::IGMM igmmbg( m_BackgroundColours, hypesbg );
+    Math::IGMMHyperparameters hypesbg = {Lambda, R, alpha, Beta};
+    Math::IGMM igmmbg( m_BackgroundColours, hypesbg );
     igmmbg.Estimate(1e-13, 100);
     igmmbg.ConditionBestSigmas();
 
@@ -447,4 +449,5 @@ void SegmentationModel::EvaluateMRF(Stream::Message& msg)
     }
 
     msg.print() << "Done." << std::endl;
+}
 }

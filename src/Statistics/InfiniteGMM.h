@@ -31,7 +31,7 @@
 #include "Distributions.h"
 #include "Sample.h"
 
-namespace Sample
+namespace Math
 {
     struct IGMMHyperparameters
     {

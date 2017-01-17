@@ -1,6 +1,6 @@
 #include "InfiniteGMM.h"
 
-namespace Sample
+namespace Math
 {
     IGMM::IGMM( const Math::Matrix& data, const DataStore& datastore, const IGMMHyperparameters& hypes ) :
         m_hypes(hypes),
@@ -66,7 +66,7 @@ namespace Sample
 #pragma omp parallel for
         for(uint32_t m=0;m<m_best.m_Ns.size(); ++m)
         {
-            MVNprobs[m] = Distribution::MvnPdf(data, m_best.m_Mu[m], m_best.m_Sigma[m]);
+            MVNprobs[m] = Math::MvnPdf(data, m_best.m_Mu[m], m_best.m_Sigma[m]);
             for(auto& mv : MVNprobs[m])
             {
                 mv *= static_cast<double>(m_best.m_Ns[m]) / m_data.Cols();
@@ -110,7 +110,7 @@ namespace Sample
 #pragma omp parallel for
         for(uint32_t m=0;m<besttmp.m_Ns.size(); ++m)
         {
-            MVNprobs[m] = Distribution::MvnPdf(data, besttmp.m_Mu[m], besttmp.m_Sigma[m]);
+            MVNprobs[m] = Math::MvnPdf(data, besttmp.m_Mu[m], besttmp.m_Sigma[m]);
             for(auto& mv : MVNprobs[m])
             {
                 mv *= static_cast<double>(besttmp.m_Ns[m]) / m_data.Cols();
@@ -138,7 +138,7 @@ namespace Sample
 #pragma omp parallel for
         for(uint32_t m=0;m<m_best.m_Ns.size(); ++m)
         {
-            std::vector<double> MVNprobs = Distribution::MvnPdf(data, m_best.m_Mu[m], m_best.m_Sigma[m]);
+            std::vector<double> MVNprobs = Math::MvnPdf(data, m_best.m_Mu[m], m_best.m_Sigma[m]);
             for(uint32_t i=0; i<MVNprobs.size(); ++i)
             {
                 AssignmentProbs(m,i) = MVNprobs[i]*(static_cast<double>(m_best.m_Ns[m]) / m_data.Cols());
@@ -155,7 +155,7 @@ namespace Sample
 #pragma omp parallel for
         for(uint32_t m=0;m<m_best.m_Ns.size(); ++m)
         {
-            std::vector<double> MVNprobs = Distribution::LogMvnPdf(data, m_best.m_Mu[m], m_best.m_Sigma[m]);
+            std::vector<double> MVNprobs = Math::LogMvnPdf(data, m_best.m_Mu[m], m_best.m_Sigma[m]);
             for(uint32_t i=0; i<MVNprobs.size(); ++i)
             {
                 AssignmentProbs(m,i) = MVNprobs[i] + std::log(static_cast<double>(m_best.m_Ns[m]) / m_data.Cols());
@@ -163,7 +163,7 @@ namespace Sample
         }
 
         std::vector<double> sums(AssignmentProbs.Cols(),0.0);
-        auto nassignments = Distribution::NormaliseLogarithmicMatrix( AssignmentProbs, sums);
+        auto nassignments = Math::NormaliseLogarithmicMatrix( AssignmentProbs, sums);
 
         return nassignments;
     }
@@ -366,7 +366,7 @@ namespace Sample
 
         Math::Matrix StudentSigma = BT*(static_cast<double>(Kappa + m_N + 1 )/(Kappa*(m_hypes.Beta+m_N-m_M+1)));
         Math::Matrix StudentMu = (Kappa*m_hypes.Lambda + m_N*m_current.m_Mu[0]) / (Kappa*(m_hypes.Beta + m_N - m_M + 1));
-        m_ProbAny = Distribution::StudentT3( m_data, StudentSigma, StudentMu, Kappa + m_N - m_M + 1 );
+        m_ProbAny = Math::StudentT3( m_data, StudentSigma, StudentMu, Kappa + m_N - m_M + 1 );
         for(auto& p : m_ProbAny)
         {
             p *= m_hypes.Alpha / (m_N - 1 + m_hypes.Alpha);
@@ -380,7 +380,7 @@ namespace Sample
 #pragma omp parallel for
         for(uint32_t k=0; k<m_K; ++k)
         {
-            m_P[k] = Distribution::MvnPdf( m_data, m_current.m_Mu[k], m_current.m_Sigma[k]);
+            m_P[k] = Math::MvnPdf( m_data, m_current.m_Mu[k], m_current.m_Sigma[k]);
             for(auto& p : m_P[k])
             {
                 p *= m_current.m_Ns[k] / (m_N - 1 + m_hypes.Alpha);

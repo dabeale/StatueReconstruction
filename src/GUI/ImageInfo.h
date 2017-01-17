@@ -38,12 +38,26 @@
 #include <vector>
 
 /**
+ * \brief SegmentationGUI
+ * A collection of classes and functions written in Qt for the graphical usr interface.
+ */
+namespace SegmentationGUI
+{
+
+/**
  * @brief The ImageInfo class
- * Contains all the information relevant for the currently viewed image
+ * Contains all the information relevant for an image. This includes, depth map information, camera file and calibration matrices,
+ * segmentations. It also stores all of the interactions that a user has made with the image in the interface, such as
+ * selected foreground, background and edge points.
  */
 class ImageInfo
 {
 public:
+    /**
+     * @brief ImageInfo
+     * An explicit constructor for an image and its information.
+     * @param fileName The path to the image.
+     */
     ImageInfo( QString fileName );
 
     QImage m_image;     ///< A scaled version of the file on disk
@@ -64,8 +78,8 @@ public:
     std::vector< double > m_BackgroundDepths; ///< User sketched background depths
     std::vector< double > m_EdgeDepths;       ///< User sketched edge depths
 
-    std::vector< double > m_ForegroundColours;
-    std::vector< double > m_BackgroundColours;
+    std::vector< double > m_ForegroundColours; ///< A vector of user selected foreground colours (in rgb format)
+    std::vector< double > m_BackgroundColours; ///< A vector of user selected background colours
 
     QString m_filename; ///< The name of the underlying image file
 
@@ -76,13 +90,18 @@ public:
      */
     void DumpToOctave(const std::string& namePrefix) const;
 
+    /**
+     * @brief WriteSegmentation
+     * Write the segmentation to file
+     * @param file The file to write to
+     */
     void WriteSegmentation( std::string file );
 
     uint32_t getFileHeight() const;
     uint32_t getFileWidth() const;
 private:
-    uint32_t m_fileWidth;
-    uint32_t m_fileHeight;
+    uint32_t m_fileWidth; ///< The width of the original file on disk (the loaded image is scaled down).
+    uint32_t m_fileHeight; ///< The height of the original file on disk (the loaded image is scaled down.)
 
     /**
      * @brief DumpList
@@ -93,5 +112,5 @@ private:
     void DumpList( const std::vector< PenPoint >& pointList, const std::string& name ) const;
 
 };
-
+}
 #endif // IMAGEINFO_H

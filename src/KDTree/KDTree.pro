@@ -16,8 +16,7 @@ include (../common.pri)
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += main.cpp \
-    node.cpp \
+SOURCES += node.cpp \
     tree.cpp
 
 HEADERS += \

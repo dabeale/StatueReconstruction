@@ -4,6 +4,8 @@
 // Alows the QVector<QPoint> to be registered and used in a signal, when combined with qRegisterMetaType
 Q_DECLARE_METATYPE ( QVector<QPoint> )
 
+namespace SegmentationGUI
+{
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
 //    ui(),
@@ -28,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_widthSlider(new QSlider(Qt::Horizontal,this)),
     m_frameSlider(new QSlider(Qt::Horizontal, this)),
     m_frameLabel(new QLabel(tr("0"),this)),
-    m_cl(new QHBoxLayout),
     m_window(new QWidget(this)),
     m_fileMenu(new QMenu(tr("File"), this)),
 
@@ -59,12 +60,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_imageViewer->setMinimumSize(480,320); // Allows downscaling ( not obvious )
 
-    m_cl->addWidget(m_imageViewer);
+
+    QHBoxLayout* cl = new QHBoxLayout;
+    cl->addWidget(m_imageViewer);
 
     m_imageViewer->setScaledContents(true);
     m_imageViewer->setMouseTracking(true);
-    //setLayout(m_cl);
-    m_window->setLayout(m_cl);
+    m_window->setLayout(cl);
     m_window->setMinimumSize(QSize(460, 380));
     setCentralWidget(m_window);
 
@@ -141,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(m_loadMesh, SIGNAL(triggered()), m_imageViewer, SLOT(LoadMesh()));
     connect(m_loadCameras, SIGNAL(triggered()), m_imageViewer, SLOT(LoadCameras()));
 
-    connect(m_imageViewer, SIGNAL(ResizeEvent()), this, SLOT(ResizeWindow()));
+    connect(m_imageViewer, SIGNAL(ImagesLoaded()), this, SLOT(ResizeWindow()));
     connect(m_imageViewer, SIGNAL(ImagesLoaded()), this, SLOT(SetSliderValues()));
 
     connect(m_frameSlider, SIGNAL(sliderMoved(int)), m_imageViewer, SLOT(SetPosition(int)));
@@ -207,4 +209,5 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     }
 
     return QMainWindow::eventFilter(obj, event);
+}
 }

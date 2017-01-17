@@ -49,33 +49,90 @@
 class Image
 {
 public:
+    /**
+     * @brief Image
+     * Construct an empty image.
+     */
     Image();
-    Image( const std::string& filename );
-    Image( const std::vector<double>& image, const uint32_t rows, const uint32_t cols, const uint32_t depth);
-    Image( const uint32_t rows, const uint32_t cols, const uint32_t depth);
-    ~Image();
 
+    /**
+     * @brief Image
+     * Construct an image from a filename. Opencv is used to load the image.
+     * @param filename the path to the file.
+     */
+    Image( const std::string& filename );
+
+    /**
+     * @brief Image
+     * Construct an image from a vector of rgb values, between 0 and 1. This has been left open
+     * to create images with a depth different than 3, although currently only 3 colours are supported,
+     * with no alpha.
+     * @todo Provide support for an alpha channel and also images of depth different than 3.
+     * @param image The vector from which to create the image.
+     * @param rows The number of rows
+     * @param cols The number of columns
+     * @param depth The colour depth
+     */
+    Image( const std::vector<double>& image, const uint32_t rows, const uint32_t cols, const uint32_t depth);
+
+    /**
+     * @brief Image
+     * Create an empty image with the specified number of rows and columns and depth.
+     * @param rows The number of rows
+     * @param cols The number of columns
+     * @param depth The depth (=3)
+     */
+    Image( const uint32_t rows, const uint32_t cols, const uint32_t depth);
+    ~Image(); ///< Destroy the Image object.
+
+    /**
+     * @brief Load
+     * Load an image from disk.
+     * @param filename The path of the image
+     */
     void Load( const std::string& filename );
 
-    inline double * Ptr() {return m_image.data();} ///< Get pointer to the data
-    inline const double * Ptr() const {return m_image.data();}  ///< Get pointer to the data
-    inline std::vector<double>& Data() {return m_image;} ///< Get vector of data
-    inline cv::Mat& GetCVImage() {return m_imageCV;}
+    inline double * Ptr() {return m_image.data();}              ///< Get pointer to the data
+    inline const double * Ptr() const {return m_image.data();}  ///< Get const pointer to the data
+    inline std::vector<double>& Data() {return m_image;}        ///< Get vector of data
+    inline cv::Mat& GetCVImage() {return m_imageCV;}            ///< Return the cv image that the m_image was generated from.
 
-    inline uint32_t rows() const{return m_Rows;} ///< Get the number of rows
-    inline uint32_t cols() const {return m_Cols;} ///< Get the number of columns
-    inline uint32_t depth() const{return m_Depth;} ///< Get the depth (should always be 3)
+    inline uint32_t rows() const{return m_Rows;}                ///< Get the number of rows
+    inline uint32_t cols() const {return m_Cols;}               ///< Get the number of columns
+    inline uint32_t depth() const{return m_Depth;}              ///< Get the depth (should always be 3)
 
-    Image ToGrey() const; ///< Convert the image to greyscale
-    Image ToLUV() const; ///< Convert the image to LUV
-    Image ToHSV() const; ///< Convert the image to HSV
+    Image ToGrey() const;                                       ///< Convert the image to greyscale
+    Image ToLUV() const;                                        ///< Convert the image to LUV
+    Image ToHSV() const;                                        ///< Convert the image to HSV
 
+    /**
+     * @brief WriteToDisk
+     * Write the image to disk. The image is written using the opencv
+     * interface, and so it supports all of the same filetypes.
+     * @param filename the path to the image.
+     */
     void WriteToDisk( const std::string& filename);
 
+    /**
+     * @brief Resize
+     * Resize the image
+     * @param rows The new number of rows
+     * @param cols The new number of columns
+     */
     void Resize(uint32_t rows, uint32_t cols);
-    void ScaleToHeight(uint32_t rows);
-    void ScaleToWidth(uint32_t cols);
 
+    void ScaleToHeight(uint32_t rows); ///< \brief Scale the image to a new height, while proportionally scaling the width.
+    void ScaleToWidth(uint32_t cols); ///< \brief Scale the image to a new width, while proportionally scaling the height.
+
+    /**
+     * \brief GetInterpolatedPatch
+     * Get a a vector of values in a neighborhood of a point on the image. The returned patch is
+     * of size 3*patchsize^2, and is stored in rgb - column major format. The inputs to this function
+     * need not be integral since the colours are interpolated, to allow for optimisation in the image.
+     * @param i the row number
+     * @param j the column number
+     * @return A vector of values
+     */
     template<typename T>
     inline std::vector<T> GetInterpolatedPatch( const T i, const T j, const uint32_t patchSize) const
     {
@@ -92,6 +149,16 @@ public:
         return patch;
     }
 
+    /**
+     * \brief GetInterpolatedColour
+     * Get the interpolated colour at a particular point on the image. Bilinear interpolation is
+     * used to compute the value of the image at non-integral row and column.
+     * @param i the row
+     * @param j the column
+     * @param r a reference to the red value
+     * @param g a reference to the green value
+     * @param b a reference to the blue value
+     */
     template<typename T>
     inline void GetInterpolatedColour( T i, T j, T& r, T& g, T& b ) const
     {
@@ -122,6 +189,15 @@ public:
                jfr*    ifr *m_image[ (jceil*m_Rows + iceil)*m_Depth + 2];
     }
 
+    /**
+     * @brief GetColour
+     * Get the colour at a particular row and column, with double precision, between 0 and 1.
+     * @param i the row
+     * @param j the column
+     * @param r a reference to the red value
+     * @param g a reference to the green value
+     * @param b a reference to the blue value
+     */
     inline void GetColour(const uint32_t i, const uint32_t j, double& r, double& g, double& b) const
     {
         r = m_image[ (j*m_Rows + i)*m_Depth ];
@@ -129,6 +205,15 @@ public:
         b = m_image[ (j*m_Rows + i)*m_Depth + 2];
     }
 
+    /**
+     * @brief GetColour
+     * Get the colour at a particular row and column, with integer precision, between 0 and 255.
+     * @param i the row
+     * @param j the column
+     * @param r a reference to the red value
+     * @param g a reference to the green value
+     * @param b a reference to the blue value
+     */
     inline void GetColour(const uint32_t i, const uint32_t j, uint8_t& r, uint8_t& g, uint8_t& b) const
     {
         r = static_cast<uint8_t>(255*m_image[ (j*m_Rows + i)*m_Depth ]);
@@ -136,6 +221,15 @@ public:
         b = static_cast<uint8_t>(255*m_image[ (j*m_Rows + i)*m_Depth + 2]);
     }
 
+    /**
+     * @brief SetColour
+     * Set the colour at a particular row and column, with double precision, between 0 and 1.
+     * @param i the row
+     * @param j the column
+     * @param r the red value
+     * @param g the green value
+     * @param b the blue value
+     */
     inline void SetColour(const uint32_t i, const uint32_t j, const double r, const double g, const double b)
     {
         m_image[ (j*m_Rows + i)*m_Depth ] = r;
@@ -143,6 +237,15 @@ public:
         m_image[ (j*m_Rows + i)*m_Depth + 2] = b;
     }
 
+    /**
+     * @brief SetColour
+     * Set the colour at a particular row and column, with integer precision, between 0 and 1.
+     * @param i the row
+     * @param j the column
+     * @param r the red value
+     * @param g the green value
+     * @param b the blue value
+     */
     inline void SetColour(const uint32_t i, const uint32_t j, const uint8_t r, const uint8_t g, const uint8_t b)
     {
         m_image[ (j*m_Rows + i)*m_Depth ] = static_cast<double>(r)/255.0;
@@ -150,18 +253,18 @@ public:
         m_image[ (j*m_Rows + i)*m_Depth + 2] = static_cast<double>(b)/255.0;
     }
 
-    std::vector<double> GetPermutation() const; ///< Convert the image from 3xMxN to MxNx3 for filtering
+    std::vector<double> GetPermutation() const; ///< \brief Convert the image from 3xMxN to MxNx3 for filtering
 
 private:
     std::vector<double> m_image; ///< The image in contiguous space
-    cv::Mat m_imageCV;
+    cv::Mat m_imageCV;           ///< The image in opencv format. This is the first thing that is loaded, the colour conversions do not apply.
 
-    uint32_t m_Rows;
-    uint32_t m_Cols;
-    uint32_t m_Depth;
+    uint32_t m_Rows;             ///< The number of rows
+    uint32_t m_Cols;             ///< The number of columns
+    uint32_t m_Depth;            ///< The number of colours
 
-    void FillCVImage();
-    void FillArrayWithCVImage();
+    void FillCVImage();          ///< \brief Fill m_imageCV with m_image
+    void FillArrayWithCVImage(); ///< \brief Fill m_image with m_CV image (performed on construction)
 };
 
 #endif // IMAGE_H

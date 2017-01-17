@@ -16,15 +16,9 @@ TEMPLATE = lib
 CONFIG += staticlib
 
 SOURCES += \
-    Image.cpp \
-    libppm.cpp \
-    Video.cpp \
-    Colour.cpp
+    Image.cpp
 
 HEADERS += \ 
-    Image.h \
-    libppm.h \
-    Video.h \
-    Colour.h
+    Image.h
 
 LIBS +=

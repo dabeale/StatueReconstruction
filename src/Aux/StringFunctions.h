@@ -28,8 +28,19 @@
 #include <string>
 #include <list>
 
+/**
+ * \brief A collection of string manpulation functions
+ */
 namespace String
 {
+    /**
+     * @brief split Split a string about a delimeter
+     * @details This function mimicks the behaviour of the Matlab function strsplit. Given a
+     * string separated by a delimiter such as ' ', return a list of words in the string.
+     * @param s The input string
+     * @param delim the delimiter
+     * @return  A list of words
+     */
     inline std::list< std::string > split(const std::string &s, char delim)
     {
         std::list< std::string > out;

@@ -1,5 +1,7 @@
 #include "ImageInfo.h"
 
+namespace SegmentationGUI
+{
 std::string GetFileFromString (const std::string& str)
 {
   unsigned found = str.find_last_of("/\\");
@@ -156,4 +158,5 @@ void ImageInfo::DumpList( const std::vector< PenPoint >& pointList, const std::s
                    pt.m_pen.widthF() << std::endl;
     }
     ostream.close();
+}
 }

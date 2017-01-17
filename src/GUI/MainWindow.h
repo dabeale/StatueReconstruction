@@ -50,6 +50,8 @@
 
 #include "ImageViewer.hpp"
 
+namespace SegmentationGUI
+{
 /**
  * @brief The MainWindow class
  * This class provides the main graphical user interface.
@@ -63,61 +65,60 @@ public:
     ~MainWindow();
 
 private slots:
-    bool eventFilter(QObject *obj, QEvent *event); ///< Event filter signal
-    void ComboChanged(const QString&); ///< Notify when the combo box has changed
-    void ResizeWindow(); ///< Resize the window so that it fits the (scaled) image
-    void SetSliderValues(); ///< Set the slider values correctly for the video
-    void IncrementSlider();
-    void DecrementSlider();
+    bool eventFilter(QObject *obj, QEvent *event); ///< \brief Event filter signal.
+    void ComboChanged(const QString&);             ///< \brief Notify when the combo box has changed
+    void ResizeWindow();                           ///< \brief Resize the window so that it fits the (scaled) image
+    void SetSliderValues();                        ///< \brief Set the slider values correctly for the video
+    void IncrementSlider();                        ///< \brief Increment the slider by one unit
+    void DecrementSlider();                        ///< \brief Decrement the slider by one unit
 
 private:
-    QToolBar *m_mainToolBar;
-    QToolBar *m_videoToolBar;
+    QToolBar *m_mainToolBar;                ///< The main toolbar containing all of the radio buttons, function buttons and tool width slider
+    QToolBar *m_videoToolBar;               ///< The tool bar containing the frame selection slider
 
-    QGroupBox *m_groupBox;
-    QRadioButton *m_radioEdge;
-    QRadioButton *m_radioForeground;
-    QRadioButton *m_radioBackground;
+    QGroupBox *m_groupBox;                  ///< The user selection radio button group box
+    QRadioButton *m_radioEdge;              ///< The 'Edge' selection tool radio button
+    QRadioButton *m_radioForeground;        ///< The 'Foreground' selection tool radio button
+    QRadioButton *m_radioBackground;        ///< The 'Background' selection radio button
 
-    QGroupBox *m_viewGroupBox;
-    QRadioButton *m_radioImage;
-    QRadioButton *m_radioAnnotations;
-    QRadioButton *m_radioSegmentation;
-    QRadioButton *m_radioBoth;
-    QRadioButton *m_radioDepthMap;
+    QGroupBox *m_viewGroupBox;              ///< The view mode radio button group
+    QRadioButton *m_radioImage;             ///< 'Image' view mode radio
+    QRadioButton *m_radioAnnotations;       ///< 'Annotations' view mode radio
+    QRadioButton *m_radioSegmentation;      ///< 'Segmentation' view mode radio
+    QRadioButton *m_radioBoth;              ///< 'Both' view mode radio
+    QRadioButton *m_radioDepthMap;          ///< 'Depth Map' view mode radio
 
-    QToolButton *m_CycleLeft;
-    QToolButton *m_CycleRight;
-    QToolButton *m_Clear;
-    QToolButton *m_ComputeModel;
-    QToolButton *m_RunMRF;
-    QToolButton *m_ComputeDepthMaps;
-    QSlider *m_widthSlider;
-    QSlider *m_frameSlider;
-    QLabel *m_frameLabel;
+    QToolButton *m_CycleLeft;               ///< Tool button to cycle the image one to the left
+    QToolButton *m_CycleRight;              ///< Tool button to cycle the image one to the right
+    QToolButton *m_Clear;                   ///< Tool button to clear annotations from the current image
+    QToolButton *m_ComputeModel;            ///< Tool button to compute the segmentation model
+    QToolButton *m_RunMRF;                  ///< Tool button to compute only the MRF
+    QToolButton *m_ComputeDepthMaps;        ///< Tool button to compute the depthmaps
+    QSlider *m_widthSlider;                 ///< A slider identifying the width of the tool in pixels
+    QSlider *m_frameSlider;                 ///< A slider identifying the current image number
+    QLabel *m_frameLabel;                   ///< A labels specifying the current frame
 
-    QHBoxLayout *m_cl;
+    QWidget *m_window;                      ///< The main widget, containing everything.
 
-    QWidget *m_window;
+    QMenu *m_fileMenu;                      ///< The file menu
+    QAction *m_openAction;                  ///< Open a collection of images from disk
+    QAction *m_dumpToOctaveAction;          ///< Dump all of the user annotations to octave files on disk
+    QAction *m_saveSegmentation;            ///< Save the generated segmentations
+    QAction *m_loadMesh;                    ///< Load a ply file from disk
+    QAction *m_loadCameras;                 ///< Load cameras from disk
 
-    QMenu *m_fileMenu;
-    QAction *m_openAction;
-    QAction *m_dumpToOctaveAction;
-    QAction *m_saveSegmentation;
-    QAction *m_loadMesh;
-    QAction *m_loadCameras;
+    QMenu *m_parameterMenu;                 ///< A menu relating to parameter input
+    QAction *m_MRFParameters;               ///< Show the MRF parameters window
 
-    QMenu *m_parameterMenu;
-    QAction *m_MRFParameters;
+    ImageViewer *m_imageViewer;             ///< The image viewer
 
-    ImageViewer *m_imageViewer; ///< An extension of a QLabel which can also deal with painting points
+    bool m_showColors;                      ///< If true show the user annotations
 
-    bool m_showColors; ///< If true show colors
+    QString m_startDirectory;               ///< The start directory for the file input dialogues
 
-    QString m_startDirectory;
-
-    double m_SampleSigma;
+    double m_SampleSigma;                   ///< The width of the tool in pixels
 };
+}
 
 
 #endif // MAINWINDOW_H
