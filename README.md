@@ -9,6 +9,8 @@ The software is a similar approach to reconstruction as used in [1], although it
 
 [1] - "Automatic Object Segmentation from Calibrated Images" - Neill Campbell et al. In Proceedings 8th European Conference on Visual Media Production, 2011. 
 
+The library documentation can be found online at [dabeale.github.io/StatueReconstruction](http://dabeale.github.io/StatueReconstruction).
+
 ## Pre-requisites
 
 The software requires the following in order to compile,
