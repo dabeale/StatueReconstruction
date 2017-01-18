@@ -53,7 +53,7 @@
 namespace SegmentationGUI
 {
 /**
- * @brief The MainWindow class
+ * @brief The MainWindow class.
  * This class provides the main graphical user interface.
  */
 class MainWindow : public QMainWindow

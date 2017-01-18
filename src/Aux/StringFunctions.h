@@ -34,8 +34,8 @@
 namespace String
 {
     /**
-     * @brief split Split a string about a delimeter
-     * @details This function mimicks the behaviour of the Matlab function strsplit. Given a
+     * @brief Split a string about a delimeter
+     * This function mimicks the behaviour of the Matlab function strsplit. Given a
      * string separated by a delimiter such as ' ', return a list of words in the string.
      * @param s The input string
      * @param delim the delimiter

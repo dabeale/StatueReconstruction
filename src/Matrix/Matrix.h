@@ -57,7 +57,7 @@ namespace Cu
     typedef std::pair< std::vector<double> , std::vector<uint32_t> > DataDims;  ///< An abstraction of an N tensor
 
     /**
-     * @brief read_matrix_octave
+     * @brief read_matrix_octave.
      * Read a matrix stored in the octave format. This implementation currently only reads text files.
      * @param filename The path to the file
      * @param name A reference to the name of the matrix. This value is filled from the name stored in the file
@@ -66,7 +66,7 @@ namespace Cu
     DataDims read_matrix_octave(const std::string &filename, std::string& name);
 
     /**
-     * @brief read_matrix_bundler
+     * @brief read_matrix_bundler.
      * Read a matrix stored in the Bundler format. A bundler matrix is necessarily
      * a camera matrix (i.e. 3x4 homogeneous). The first line should be CONTOUR, for example,
      *
@@ -81,7 +81,7 @@ namespace Cu
     Matrix read_matrix_bundler( const std::string& filename );
 
     /**
-     * @brief ConvertToEigen
+     * @brief ConvertToEigen.
      * Map a double precision array on to a Eigen matrix. This imlpements the Eigen map
      * functionality and so it is as fast as a mem copy.
      * @param in
@@ -105,7 +105,7 @@ namespace Math
     static void Subtract(const Matrix& A, const Matrix& B, Matrix &C); ///< Fast subtract (no checking)
 
     /**
-     * @brief The Matrix class
+     * @brief The Matrix class.
      * This class implements a collection of algorithms for matrix operations. All of the methods are the most basic
      * and are not heavily optimised for speed. The matrix factorisation algorithms are taken from a collection of papers,
      * but also the Rosetta Code project website (http://rosettacode.org/wiki/Rosetta_Code).
@@ -121,13 +121,13 @@ namespace Math
         friend void Subtract(const Matrix& A, const Matrix& B, Matrix &C); ///< Fast subtract (no checking)
 
         /**
-         * @brief Matrix
+         * @brief Matrix.
          * Construct an empty matrix
          */
         Matrix();
 
         /**
-         * @brief Matrix
+         * @brief Matrix.
          * Construct an MxN matrix filled with zeros.
          * @param M The number of rows
          * @param N The number of columns
@@ -135,7 +135,7 @@ namespace Math
         Matrix(const uint32_t M, const uint32_t N);
 
         /**
-         * @brief Matrix
+         * @brief Matrix.
          * Construct an MxN matrix and fill it with a single value
          * @param M The number of rows
          * @param N The number of columns
@@ -144,7 +144,7 @@ namespace Math
         Matrix(const uint32_t M, const uint32_t N, const double val);
 
         /**
-         * @brief Matrix
+         * @brief Matrix.
          * Construct an MxN matrix and fill it with the contents of an array. The array stored in
          * this matrix implementation is, by default, column major. The input array is assumed to
          * be row major by default since it allows a matrix to be constructed using an initializer_list,
@@ -165,7 +165,7 @@ namespace Math
         Matrix(const uint32_t M, const uint32_t N, const std::vector<double>& array, bool rowmajor=true);
 
         /**
-         * @brief Matrix
+         * @brief Matrix.
          * Construct a matrix using an initializer_list. This will assume that the
          * matrix is a column vector, and allows the matrix to be constructed as follows,
          * \code
@@ -210,7 +210,7 @@ namespace Math
         friend Matrix operator -(const Matrix& A);
 
         /**
-         * @brief det
+         * @brief det.
          * Compute the determinant of a square matrix. It is a recursive algorithm
          * which computes the matrix of cofactors and muliplies each element by a power of -1.
          * @return The determinant.
@@ -218,14 +218,14 @@ namespace Math
         double det() const;
 
         /**
-         * @brief inv
+         * @brief inv.
          * Compute the inverse of the matrix usign Gauss-Jordan elimination.
          * @return The inverse
          */
         Matrix inv() const;
 
         /**
-         * @brief solve
+         * @brief solve.
          * Solve the system of equations Ax = b using LU decomposition.
          * @param b
          * @return
@@ -233,7 +233,7 @@ namespace Math
         Matrix solve( const Matrix& b ) const;
 
         /**
-         * @brief mean
+         * @brief mean.
          * Compute the column or rowwise mean of the matrix. For example, calling
          * mean(0) returns a row vector containing the mean across the rows. It follows the
          * same semantics as the associated matlab function.
@@ -243,7 +243,7 @@ namespace Math
         Matrix mean( const uint32_t dim=0 ) const;
 
         /**
-         * @brief cov
+         * @brief cov.
          * Compute the covariance across the specified dimension. For example, calling
          * mean(0) will return a square matrix with the same number of columns as 'this', containing
          * the covarainces across each of the rows.
@@ -253,7 +253,7 @@ namespace Math
         Matrix cov( const uint32_t dim=0 ) const;
 
         /**
-         * @brief LU
+         * @brief LU.
          * Return the LU decomposition of the matrix. This implementation is taken from the Rosetta Code project.
          * It will return three matrices L, U, and P, so that PA = LU; where A is 'this'.
          * @return A tuple containing L, U, and P; the lower triangular, upper triangular and permutation matrix, respectively.
@@ -261,7 +261,7 @@ namespace Math
         std::tuple<Matrix, Matrix, Matrix> LU() const;
 
         /**
-         * @brief svd
+         * @brief svd.
          * Return the singular value decomposition of 'this'. It will return three matrices U, S, V,
          * where U and V are left and right orthogonal transformation matrices and S is a diagonal matrix of
          * singular values.
@@ -292,14 +292,14 @@ namespace Math
         double dot(const Matrix& c);                                    ///< \brief Take the dot product of this matrix with 'c'
 
         /**
-         * @brief QR
+         * @brief QR.
          * Return a pair of matrices Q and R such that A = QR, where A is 'this'.
          * @return A pair of matrices, Q and R, respectively.
          */
         std::pair<Matrix, Matrix> QR() const; ///< Return the QR decomposition
 
         /**
-         * @brief eig
+         * @brief eig.
          * Compute the eigenvalue decomposition of a square matrix; matrices U and S such that
          * A = USU^{-1}.
          *
@@ -314,7 +314,7 @@ namespace Math
         const double *Data() const;                     ///< \brief Return a pointer to the first element of the matrix
 
         /**
-         * @brief Jacobi
+         * @brief Jacobi.
          * Compute the Eigen decompoosition for a symmetric matrix.
          * This code is an adaptation of the numerical recipes version
          * Originally written by David Squire (DMS), David.Squire@infotech.monash.edu.au
@@ -323,7 +323,7 @@ namespace Math
         std::pair<Matrix, Matrix> Jacobi() const;
 
         /**
-         * @brief chol
+         * @brief chol.
          * Compute the cholesky decomposition for a square positive semidefinite matrix; a matrix L
          * such that A = L'L, where A is 'this'.
          *
@@ -348,16 +348,14 @@ namespace Math
         uint32_t m_N;                               ///< The number of columns
 
         /**
-         * @brief pivot
-         * Internal pivoting for Gauss-Jordan elimination.
+         * @brief Internal pivoting for Gauss-Jordan elimination.
          * @param row The row to pivot
          * @return
          */
         inline int pivot (uint32_t row);
 
         /**
-         * @brief det
-         * The internal determinant method. Used for recursion.
+         * @brief The internal determinant method. Used for recursion.
          * @param a A square matrix
          * @param n The number of rows
          * @return

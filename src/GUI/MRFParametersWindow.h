@@ -39,7 +39,7 @@ namespace SegmentationGUI
 {
 
 /**
- * @brief The MRFParametersWindow class
+ * @brief The MRFParametersWindow class.
  * This is a QMainWindow which allows the user to input the parameters for the
  * Markov random field algorithm.
  */
@@ -52,8 +52,7 @@ public:
     ~MRFParametersWindow();
 
     /**
-     * @brief The SegType enum
-     * An enumeration of Markov random field algorithms
+     * @brief An enumeration of Markov random field algorithms
      */
     enum SegType
     {

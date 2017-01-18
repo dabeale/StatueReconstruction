@@ -31,8 +31,7 @@
 #include "Matrix.h"
 
 /**
- * @brief readNameFile
- * Read the a collection of filenames from a newline delimited file.
+ * @brief Read the a collection of filenames from a newline delimited file.
  * @param filename The path to the file
  * @return A list of filenames
  */
@@ -53,8 +52,7 @@ std::list< std::string > readNameFile( const std::string& filename)
 }
 
 /**
- * @brief print_usage
- * Print the usage of the software
+ * @brief Print the usage of the software
  * @param msg An interface to the output stream.
  */
 void print_usage( Stream::Message& msg)
@@ -64,8 +62,7 @@ void print_usage( Stream::Message& msg)
 }
 
 /**
- * @brief Carving
- * This executable is for computing a collection of space carving algorithms given a camera
+ * @brief This executable is for computing a collection of space carving algorithms given a camera
  * collection, a point cloud and corresponding segmentations. There is documentation in the
  * Carve namespace which details how each of the functions work.
  *

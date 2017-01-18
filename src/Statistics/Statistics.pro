@@ -18,13 +18,11 @@ CONFIG -= app_bundle
 TEMPLATE = lib
 CONFIG += staticlib
 
-SOURCES += GaussianMixture.cpp \
-    Sample.cpp \
+SOURCES += Sample.cpp \
     InfiniteGMM.cpp \
     Distributions.cpp
 
-HEADERS += GaussianMixture.h \
-    Sample.h \
+HEADERS += Sample.h \
     InfiniteGMM.h \
     Distributions.h
 

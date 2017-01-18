@@ -36,7 +36,7 @@
 // #include "CImg.h"
 
 /**
- * @brief The Image class
+ * @brief The Image class.
  * This class represents an image. It loads and saves using opencv, and contains and
  * opencv image and also a vector containing rgb values. The purpose is to put the data
  * in to contiguous format for certain algorithms such as fft and clustering to work properly.
@@ -50,21 +50,18 @@ class Image
 {
 public:
     /**
-     * @brief Image
-     * Construct an empty image.
+     * @brief Construct an empty image.
      */
     Image();
 
     /**
-     * @brief Image
-     * Construct an image from a filename. Opencv is used to load the image.
+     * @brief Construct an image from a filename. Opencv is used to load the image.
      * @param filename the path to the file.
      */
     Image( const std::string& filename );
 
     /**
-     * @brief Image
-     * Construct an image from a vector of rgb values, between 0 and 1. This has been left open
+     * @brief Construct an image from a vector of rgb values, between 0 and 1. This has been left open
      * to create images with a depth different than 3, although currently only 3 colours are supported,
      * with no alpha.
      * @todo Provide support for an alpha channel and also images of depth different than 3.
@@ -76,8 +73,7 @@ public:
     Image( const std::vector<double>& image, const uint32_t rows, const uint32_t cols, const uint32_t depth);
 
     /**
-     * @brief Image
-     * Create an empty image with the specified number of rows and columns and depth.
+     * @brief Create an empty image with the specified number of rows and columns and depth.
      * @param rows The number of rows
      * @param cols The number of columns
      * @param depth The depth (=3)
@@ -86,8 +82,7 @@ public:
     ~Image(); ///< Destroy the Image object.
 
     /**
-     * @brief Load
-     * Load an image from disk.
+     * @brief Load an image from disk.
      * @param filename The path of the image
      */
     void Load( const std::string& filename );
@@ -106,16 +101,15 @@ public:
     Image ToHSV() const;                                        ///< Convert the image to HSV
 
     /**
-     * @brief WriteToDisk
-     * Write the image to disk. The image is written using the opencv
+     * @brief Write the image to disk.
+     * The image is written using the opencv
      * interface, and so it supports all of the same filetypes.
      * @param filename the path to the image.
      */
     void WriteToDisk( const std::string& filename);
 
     /**
-     * @brief Resize
-     * Resize the image
+     * @brief Resize the image
      * @param rows The new number of rows
      * @param cols The new number of columns
      */
@@ -125,7 +119,7 @@ public:
     void ScaleToWidth(uint32_t cols); ///< \brief Scale the image to a new width, while proportionally scaling the height.
 
     /**
-     * \brief GetInterpolatedPatch
+     * \brief GetInterpolatedPatch.
      * Get a a vector of values in a neighborhood of a point on the image. The returned patch is
      * of size 3*patchsize^2, and is stored in rgb - column major format. The inputs to this function
      * need not be integral since the colours are interpolated, to allow for optimisation in the image.
@@ -150,7 +144,7 @@ public:
     }
 
     /**
-     * \brief GetInterpolatedColour
+     * \brief GetInterpolatedColour.
      * Get the interpolated colour at a particular point on the image. Bilinear interpolation is
      * used to compute the value of the image at non-integral row and column.
      * @param i the row
@@ -190,7 +184,7 @@ public:
     }
 
     /**
-     * @brief GetColour
+     * @brief GetColour.
      * Get the colour at a particular row and column, with double precision, between 0 and 1.
      * @param i the row
      * @param j the column
@@ -206,7 +200,7 @@ public:
     }
 
     /**
-     * @brief GetColour
+     * @brief GetColour.
      * Get the colour at a particular row and column, with integer precision, between 0 and 255.
      * @param i the row
      * @param j the column
@@ -222,7 +216,7 @@ public:
     }
 
     /**
-     * @brief SetColour
+     * @brief SetColour.
      * Set the colour at a particular row and column, with double precision, between 0 and 1.
      * @param i the row
      * @param j the column
@@ -238,7 +232,7 @@ public:
     }
 
     /**
-     * @brief SetColour
+     * @brief SetColour.
      * Set the colour at a particular row and column, with integer precision, between 0 and 1.
      * @param i the row
      * @param j the column

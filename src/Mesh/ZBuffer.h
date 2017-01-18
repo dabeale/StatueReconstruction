@@ -42,7 +42,7 @@ namespace Buffer
     typedef std::vector<double> BVector; ///< \brief Vector for matrix algebra
 
     /**
-     * @brief The ProjectionMatrix class
+     * @brief The ProjectionMatrix class.
      * An imlementation of a homogeneous 3x4 matrix. This imlpementation
      * is distinct from other matrix classes because the overloaded multiplication operator
      * ensures that the final element of the returned vector is one.
@@ -55,22 +55,19 @@ namespace Buffer
     {
     public:
         /**
-         * @brief ProjectionMatrix
-         * Construct an empty projection matrix.
+         * @brief Construct an empty projection matrix.
          * The matrix is 3x4 with all elements set to zero.
          */
         ProjectionMatrix();
 
         /**
-         * @brief ProjectionMatrix
-         * Construct a 3x4 projection matrix filled with a particular value
+         * @brief Construct a 3x4 projection matrix filled with a particular value
          * @param val The value to fill the matrix with
          */
         ProjectionMatrix(double val);
 
         /**
-         * @brief ProjectionMatrix
-         * Construct a projection matrix and fill it with the values in the input vector.
+         * @brief Construct a projection matrix and fill it with the values in the input vector.
          * The matrix is filled in a column major fashion.
          * @param arr A vector of size 12 to fill the matrix with.
          */
@@ -81,7 +78,7 @@ namespace Buffer
         BVector operator *(const BVector& X) const;    ///< \brief Overload the const multiplication operator for a matrix with a BVector
 
         /**
-         *  \brief operator *
+         *  \brief operator *.
          * Overload the multiplication operator for a matrix with a pointer to a type T. The method
          * is templated so that is can accept standard types and also the auto differentiation
          * types used in ceres.
@@ -100,7 +97,7 @@ namespace Buffer
         }
 
         /**
-         *  \brief operator *
+         *  \brief operator *.
          *  Overload the const multiplication operator for a matrix with a pointer to a type T. The method
          *  is templated so that is can accept standard types and also the auto differentiation
          *  types used in ceres.
@@ -120,7 +117,7 @@ namespace Buffer
 
 
         /**
-         * @brief ComputeLocation
+         * @brief ComputeLocation.
          * Return the location of the camera in 3D space. This method assumes that the camera is canonical,
          * in the sense that the first 3x3 submatrix is unitary.
          * @return A BVector of size 3, containing the location of the focus of the camera.
@@ -128,14 +125,14 @@ namespace Buffer
         BVector ComputeLocation() const;
 
         /**
-         * @brief data
+         * @brief data.
          * Return a reference to the internal vector used to store the data. It is of size 12 and column major.
          * @return A vector reference.
          */
         inline std::vector<double>& data(){ return m_arr;}
 
         /**
-         * @brief at
+         * @brief at.
          * Return the (i,j)th element of the matrix
          * @param i The row
          * @param j The column
@@ -147,7 +144,7 @@ namespace Buffer
         }
 
         /**
-         * @brief at
+         * @brief at.
          * Return a refernce to the (i,j)th element of the matrix
          * @param i The row
          * @param j The column
@@ -161,7 +158,7 @@ namespace Buffer
         BVector m_arr;  ///< A vector of length 12, in column major format, containing the entries of the matrix.
 
         /**
-         * @brief at
+         * @brief at.
          * Return the (i,j)th element of the matrix
          * @param i The row
          * @param j The column
@@ -170,7 +167,7 @@ namespace Buffer
         double el( const uint32_t i, const uint32_t j) const;
 
         /**
-         * @brief at
+         * @brief at.
          * Return a refernce to the (i,j)th element of the matrix
          * @param i The row
          * @param j The column
@@ -180,7 +177,7 @@ namespace Buffer
     };
 
     /**
-     * @brief The ZBuffer class
+     * @brief The ZBuffer class.
      * A Z buffer for a collection of vertices and faces. There is a mesh implementation which will efficiently compute the
      * depths at every pixel and also a point cloud implementation which models each point as a blob before projecting it
      * on to the target image.
@@ -194,7 +191,7 @@ namespace Buffer
     {
     public:
         /**
-         * @brief The Mesh struct
+         * @brief The Mesh struct.
          * A container for the vertices and faces of a mesh. This is the simplest possible representation
          * for a mesh.
          */
@@ -207,8 +204,7 @@ namespace Buffer
         };
 
         /**
-         * @brief ZBuffer
-         * Construct an empty ZBuffer
+         * @brief Construct an empty ZBuffer
          */
         ZBuffer();
 
@@ -226,7 +222,7 @@ namespace Buffer
         ~ZBuffer(); ///< Empty destructor
 
         /**
-         * @brief ComputePointCloudDepthBuffer
+         * @brief ComputePointCloudDepthBuffer.
          * Compute the depth buffer based on the vertices. This method models each vertex as a blob and fills the
          * depth buffer with the closest depths to the camera.
          * @param blobsize The size, in pixels, of each blob.
@@ -234,7 +230,7 @@ namespace Buffer
         void ComputePointCloudDepthBuffer(  const int32_t blobsize = 5 );
 
         /**
-         * @brief ComputePointCloudVisibilities
+         * @brief ComputePointCloudVisibilities.
          * Copmute the mesh  visibilities based on the point cloud. This method requires ComputePointCloudDepthBuffer() to be called first,
          * and computed the per vertex visibilities on the point cloud for the given camera.
          * @param blobsize
@@ -242,14 +238,14 @@ namespace Buffer
         void ComputePointCloudVisibilities( const int32_t blobsize = 5 );
 
         /**
-         * @brief ComputeDepthBuffer
+         * @brief ComputeDepthBuffer.
          * Compute the depth buffer, based on vertices and faces. This method will fill an image with the depths
          * of the nearest side of the mesh to the camera.
          */
         void ComputeDepthBuffer();
 
         /**
-         * @brief ComputeVisibilities
+         * @brief ComputeVisibilities.
          * Compute the vertex visibilities for a triangle mesh. This method requires ComputeDepthBuffer() to be called first,
          * and computes the per vertex visibilities on the mesh of the given camera.
          */
@@ -278,7 +274,7 @@ namespace Buffer
 
 
         /**
-         * @brief GetDepthBufferValue
+         * @brief GetDepthBufferValue.
          * Get the value of the depth buffer at a given index
          * @param a A vector of length two containing the location on the image (depth buffer)
          * @return The depth
@@ -289,7 +285,7 @@ namespace Buffer
         }
 
         /**
-         * @brief GetDistanceFromTriangle
+         * @brief GetDistanceFromTriangle.
          * A private method to compute the distance of an arbitrary point from a triangle. To save time
          * this method simply computes the distance from the center of the triangle. All of the vectors
          * are assumed to be in 3D space.
@@ -311,7 +307,7 @@ namespace Buffer
         }
 
         /**
-         * @brief GetDistanceFromPoint
+         * @brief GetDistanceFromPoint.
          * A private method to compute the distance to a point.
          * @param Center The point from which to compute the distance
          * @param a The point to compute the distance to
@@ -330,7 +326,7 @@ namespace Buffer
     };
 
     /**
-     * @brief InsideTriangle
+     * @brief InsideTriangle.
      * Check whether a point (x) lies within a triangle (a,b,c), on a plane.
      * @param a The first vertex on the triangle
      * @param b The second vertex on the triangle
@@ -340,7 +336,7 @@ namespace Buffer
     inline bool InsideTriangle( const BVector& a, const BVector&b, const BVector& c, const BVector& x );
 
     /**
-     * @brief SetVertices
+     * @brief SetVertices.
      * Fill a 3 vectors with the vertices on the given face in a mesh.
      * @param vertices A pointer to the array of vertices 3xN column major
      * @param faces A pointer to the array of faces 3xK column major
@@ -352,7 +348,7 @@ namespace Buffer
     inline void SetVertices(const double* vertices, const double* faces, BVector &a, BVector& b, BVector& c, const int& i);
 
     /**
-     * @brief FindCameraVisibilities
+     * @brief FindCameraVisibilities.
      * Given a collection of camera matrices and a mesh find out which vertices are visible from which cameras. This method
      * constructs a collection of depth buffer objects and computes the visibilities for each camera. A vector of lists is returned,
      * one list for each vertex, indicating which cameras are visible from each vertex.

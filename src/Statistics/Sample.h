@@ -30,88 +30,128 @@
 
 namespace Math
 {
-
+    /**
+     * @brief The Generator class.
+     * A class used to generate samples from a collection of probability distributions. This class is
+     * necessary because it generates pseudo random number and so keeps an update of how many samples
+     * have been taken since the seed.
+     */
     class Generator
     {
     public:
+        /**
+         * @brief Generator.
+         * Construct an empty random number generator.
+         */
         Generator( );
 
         /**
-         * @brief Generator::SampleUniformInteger
-         * Sample a uniform integer with the given parameters
+         * @brief SampleUniformInteger.
+         * Sample a uniform signed 32bit integer with the given parameters
          * @param min The minimum number
          * @param max The maximum number
          * @param NSamples The number of samples to draw
-         * @return
+         * @return A vector of length NSamples
          */
         std::vector<int32_t> SampleUniformInteger(const int32_t min, const int32_t max, const uint32_t NSamples);
+
+        /**
+         * @brief SampleUniformInteger.
+         * Sample a uniform unsigned 32bit integer with the given parameters
+         * @param min The minimum number
+         * @param max The maximum number
+         * @param NSamples The number of samples to draw
+         * @return A vector of length NSamples
+         */
         std::vector<uint32_t> SampleUniformIntegerUI(const uint32_t min, const uint32_t max, const uint32_t NSamples);
 
 
         /**
-         * @brief SampleDiscrete1D
-         * Sample from a discrete distribution
+         * @brief SampleDiscrete1D.
+         * Sample from a discrete distribution.
          * @param distribution A 1xK matrix
          * @param N The number of samples to draw
-         * @return A vector of uints - the indecies
+         * @return A vector of unsigned 32bit integers - the indecies
          */
         std::vector<uint32_t> SampleDiscrete1D( const Matrix& distribution, const uint32_t N );
-        std::vector<uint32_t> SampleDiscrete1D(const std::vector<double> &dist, const uint32_t N );
+
         /**
-         * @brief SampleDiscrete2D
-         * Sample from a discrete 2D distribution. The process is Gibbs Sampling.
+         * @brief SampleDiscrete1D.
+         * Sample from a discrete distribution.
+         * @param distribution A vector of length K
+         * @param N The number of samples to draw
+         * @return A vector of unsigned 32bit integers - the indecies
+         */
+        std::vector<uint32_t> SampleDiscrete1D(const std::vector<double> &dist, const uint32_t N );
+
+        /**
+         * @brief SampleDiscrete2D.
+         * Sample from a discrete 2D distribution, using Gibbs sampling.
          * @param distribution A KxL matrix
          * @param N The number of samples to draw
-         * @return A pair of uints, the 2D indecies
+         * @return A pair of 32bit unsigned integers, the 2D indecies.
          */
         std::vector<std::pair<uint32_t, uint32_t> > SampleDiscrete2D( const Matrix& distribution, const uint32_t N );
 
 
+        /**
+         * @brief SamplePermutation.
+         * Sample a permutation vector of length N.
+         * @param N The length of the vector.
+         * @return A vector of length N.
+         */
         std::vector<uint32_t> SamplePermutation( const uint32_t N );
 
         /**
-         * @brief SampleMultivariateNormal
+         * @brief SampleMultivariateNormal.
          * Draw samples from a multivariate normal distribution.
-         * @param mu
-         * @param Sigma
-         * @param N
-         * @return
+         * @param mu A Mx1 matrix containing the mean
+         * @param Sigma An MxM matrix containing the covariance
+         * @param N The number of samples to draw
+         * @return A MxN matrix of samples, each column containing a different sample.
          */
         Matrix SampleMultivariateNormal( const Matrix& mu, const Matrix& Sigma, const uint32_t N );
 
         /**
-         * @brief SampleGMM
-         * Sample from the given GMM
-         * @param gmm The GMM
-         * @param N The number of samples
-         * @return A matrix of floating point samples
+         * @brief SampleGMM.
+         * Sample from a Gaussian Mixture Model.
+         * @param Mu An MxK matrix of means, each column containing a separate mean.
+         * @param Sigma A vector of length K, each element a MxM covariance matrix
+         * @param Pi a 1xK matrix of coefficients. This vector must sum to one.
+         * @param N The number of samples to take
+         * @return A MxN matrix of floating point samples, each column contains a different sample.
          */
         Matrix SampleGMM(const Matrix &Mu, const std::vector<Matrix> &Sigma, const Matrix &Pi, const uint32_t N );
 
         /**
-        * @brief SampleWishart
-        * Sample from a wishart distribution. This implementation is taken from the octave source code, originally written by Nir Krakauer.
-        * It is an adaptation for c++.
-        * @param Sigma
-        * @param df
-        * @param N
-        * @return
+        * @brief SampleWishart.
+        * Sample from a Wishart distribution.
+        * @param Sigma The covariance prior
+        * @param df The degrees of freedom
+        * @param N The number of samples to take
+        * @return A vector of length N, containing MxM matrices.
         */
         std::vector<Matrix> SampleWishart( const Matrix& Sigma, const uint32_t df, const uint32_t N );
 
+        /**
+         * @brief UniformlyRandomRotation.
+         * Sample a random rotation matrix which is uniformly distributed.
+         * @param M The dimensionality of the matrix
+         * @return An MxM matrix
+         */
         Matrix UniformlyRandomRotation(const uint32_t M);
 
         /**
-         * @brief SubSampleColumns
+         * @brief SubSampleColumns.
          * Sample the colums of a matrix. This sampler avoids repetition.
-         * @param data MxK
+         * @param data An MxK matrix of samples
          * @param N The number of columns to sample (N <= K)
-         * @return
+         * @return an MxN matrix with each column a random column of data.
          */
         Matrix UniquelySubSampleColumns(Matrix data, uint32_t N , double sigma=0.01);
     protected:
-        std::default_random_engine m_e;
-        uint32_t seed;
+        std::default_random_engine m_e; ///< The stl pseudo random number generator
+        uint32_t seed;                  ///< The seed
     };
 }
 

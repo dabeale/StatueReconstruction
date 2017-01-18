@@ -30,22 +30,19 @@
 namespace SegmentationGUI
 {
 /**
- * @brief The PenPoint struct
- * Contains  details of the pen, such as colour and size,
+ * @brief Contains  details of the pen, such as colour and size,
  * also the position at which it was drawn on the qobject.
  */
 struct PenPoint
 {
 public:
     /**
-     * @brief PenPoint
-     * The default constructor
+     * @brief The default constructor
      */
     PenPoint();
 
     /**
-     * @brief PenPoint
-     * Construct the penpoint with  a colour, an alpha value and its location
+     * @brief Construct the penpoint with  a colour, an alpha value and its location
      * @param colour The colour of the drawn point
      * @param alpha The alpha value
      * @param point The location of the point

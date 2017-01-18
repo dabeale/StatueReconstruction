@@ -111,8 +111,7 @@ namespace Carve
     };
 
     /**
-     * @brief ComputeInitialBox
-     * Compute the initial box for the marching cubes algortihm
+     * @brief Compute the initial box for the marching cubes algortihm
      * @param P A vector of projection matrices
      * @param Images A vector of calibrated images ( in the same order as P )
      * @param msg An interface to write messages to stdout.
@@ -127,8 +126,7 @@ namespace Carve
                          const std::vector<std::vector<double> >&Samples );
 
     /**
-     * @brief ComputeInitialBox
-     * Compute the initial box for the marching cubes algortihm
+     * @brief Compute the initial box for the marching cubes algortihm
      * @param P A vector of projection matrices
      * @param Images A vector of calibrated images ( in the same order as P )
      * @param msg An interface to write messages to stdout.
@@ -143,8 +141,7 @@ namespace Carve
                          const std::vector< double >&Samples );
 
     /**
-     * @brief FindMesh - Compute the visual hull
-     * Find the visual hull of an object given a collection of calibrated images. The function passes a
+     * @brief Find the visual hull of an object given a collection of calibrated images. The function passes a
      * functor to a marching cubes algorithm.
      * @param P A vector of camera matrices
      * @param Images A vector of calibrated images (in the same order as P)
@@ -157,7 +154,7 @@ namespace Carve
                    const Box& box, Stream::Message msg = Stream::Message("FindMesh") , const uint32_t density=200);
 
     /**
-     * @brief RemovePointsOutsideHull - Remove points outside the visual hull
+     * @brief Remove points outside the visual hull.
      * This function will take a large and noisy point cloud and remove all of the points outside of
      * the visual hull.
      * @param mesh A reference to the point cloud (or mesh)
@@ -172,7 +169,7 @@ namespace Carve
 
 
     /**
-     * @brief Hoppe - Compute the Hoppe surface reconstruction algorithm
+     * @brief Compute the Hoppe surface reconstruction algorithm.
      * This function computes the surface of a point cloud on which the surface normals have been computed. It
      * is an implementation of the paper "Surface Reconstruction from Unorganised Points" - Hughes Hoppe et al. ACM 1992.
      * @param pointcloud The point cloud (it must have the normals computed).
@@ -187,7 +184,7 @@ namespace Carve
                const uint32_t K=20, const double radius=10, Stream::Message msg = Stream::Message("Blend"));
 
     /**
-     * @brief Blend - A blend between Hoppe surface reconstruction and visual hull.
+     * @brief A blend between Hoppe surface reconstruction and visual hull.
      * This function will blend the Hoppe surface reconstruction with the visual hull
      * as an alternative to optimisation. It requires the normals to be computed
      * on both of the mesh objects.
@@ -207,7 +204,7 @@ namespace Carve
 
 
     /**
-     * @brief pdf The exponent of the zero mean Gaussian distribution
+     * @brief The exponent of the zero mean Gaussian distribution.
      * @param x The value
      * @param sigma The std deviation
      * @return
@@ -219,8 +216,7 @@ namespace Carve
     }
 
     /**
-     * @brief FindNormalisedProbability
-     * Find the joint probability of the distance element of each keypair is zero
+     * @brief Find the joint probability of the distance element of each keypair is zero
      * given that they are normally distributed with zero mean and std. deviation zero.
      * Replace the distance element with the probability and normalise using the
      * exp-sum-log calculation, which avoids numerical underflow.
@@ -256,8 +252,7 @@ namespace Carve
     }
 
     /**
-     * @brief ComputeOutwardNormals
-     * Compute the outward facing normals from a collection of cameras. i.e. the direction
+     * @brief Compute the outward facing normals from a collection of cameras. i.e. the direction
      * that the camera is pointing.
      * @param P A vector of camera matrices
      * @return A vector of normals

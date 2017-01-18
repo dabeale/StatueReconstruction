@@ -41,7 +41,7 @@
 namespace KD
 {
     /**
-     * @brief The Tree class
+     * @brief The Tree class.
      * This class is an implementation of the KD Tree. It is the simplest possible
      * implementation there is no balancing or statistics involved, making it easy
      * to modify. It was first designed so that a functional could be passed down the tree.
@@ -50,13 +50,13 @@ namespace KD
     {
     public:
         /**
-         * @brief Tree
+         * @brief Tree.
          * Construct an empty tree. Implementing this constructor allows stl containers to be used.
          */
         Tree();
 
         /**
-         * @brief Tree
+         * @brief Tree.
          * Construct a tree with some data. The tree can be chosen as random, for the randomised KD tree implementation.
          * Setting this flag to be true randomises the first search dimension of the tree.
          * @param vertices A pointer to the (column major) data matrix
@@ -68,13 +68,13 @@ namespace KD
         Tree(const double* vertices, const uint32_t dims, const uint32_t N, const bool randomize=false, uint32_t maxDepth=-1);
 
         /**
-          * \brief ~Tree
+          * \brief ~Tree.
           * Destroy the tree
           */
         ~Tree();
 
         /**
-         * @brief Tree
+         * @brief Tree.
          * Copy constructor for the tree structure. The latest implementation
          * uses smart pointers for each of the nodes and so the copy constructor is trivial. Care should
          * be taken though since it is still copies of pointers.
@@ -83,7 +83,7 @@ namespace KD
         Tree(const Tree& tree);
 
         /**
-         * @brief Search
+         * @brief Search.
          * Search the KD tree for K near neighbours. This implementation recurses to the bottom
          * of the tree, since data is stored at each level and it is possible that the lower levels contain a closer point.
          * This means that the algorithm may pass more than K nodes, which are all appended to the KeyPair vector. Specifying a
@@ -97,7 +97,7 @@ namespace KD
         std::vector<KeyPair> Search(const double* point, uint32_t K ) const;
 
         /**
-         * @brief Search
+         * @brief Search.
          * This search method simply passes a vector of KeyPairs to the head node. The vector is
          * filled with at least K KeyPairs. The vector is not truncated or sorted.
          * @param point A pointer to a point with the same number of dimensions as the input data
@@ -107,7 +107,7 @@ namespace KD
         void Search( const double* point, uint32_t K, std::vector<KeyPair>& mp ) const;
 
         /**
-         * @brief Histogram
+         * @brief Histogram.
          * Create a histogram for the depth limitied tree from input data.
          * @param inputdata A pointer to the column major, contiguous, data matrix
          * @param Npts The number of points in the input data
@@ -128,7 +128,7 @@ namespace KD
     };
 
     /**
-     * @brief The RandomisedTrees class
+     * @brief The RandomisedTrees class.
      * This class contains a collection of randomly initialised KD trees.
      *
      * In the KD tree implementation
@@ -141,7 +141,7 @@ namespace KD
     {
     public:
         /**
-         * @brief RandomisedTrees
+         * @brief RandomisedTrees.
          * Construct the randomised trees. The constructor will create an array of indexes
          * for the permutations and then create a KD tree for each of them
          * @param vertices A pointer to the data matrix
@@ -152,7 +152,7 @@ namespace KD
         RandomisedTrees(const double* vertices, const uint32_t dims, const uint32_t N, const uint32_t NumberOfTrees);
 
         /**
-         * @brief Search
+         * @brief Search.
          * Search the randomised trees. This method searches each tree and then sorts the
          * vector of results based on their distance from the intput point. The result is truncated
          * so that only K KeyPairs are returned.

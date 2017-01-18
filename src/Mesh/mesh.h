@@ -36,21 +36,30 @@
 #include "rply.h"
 #include "NearestNeighbours.h"
 
+/**
+ * \brief 3D point types for the mesh nearest neighbour mesh representations.
+ */
 namespace PointTypes
 {
-    typedef struct
+    /**
+     * @brief A 3D double precision array.
+     */
+    struct Pointd3
     {
         double p[3];
-    } Pointd3;
+    } ;
 
-    typedef struct
+    /**
+     * @brief A 3D unsigned integer array.
+     */
+    struct Pointi3
     {
         uint32_t p[3];
-    } Pointi3;
+    };
 }
 
 /**
- * @brief The Mesh class
+ * @brief The Mesh class.
  * This class represents a triangle mesh. It is a simple, non-extensible, implementation; designed
  * to provide a thread-safe interface to mesh algorithms. The class has the potential to store
  * the vertices and faces, and also the vertex colours and normals. It is possible to efficiently compute the
@@ -60,7 +69,7 @@ class Mesh
 {
 public:
     /**
-     * @brief The Primitive enum
+     * @brief The Primitive enum.
      * An enumeration of primitives which can be used to
      * initialise the mesh object. Currently only the unit sphere is implemented.
      */
@@ -70,20 +79,20 @@ public:
     };
 
     /**
-     * @brief Mesh
+     * @brief Mesh.
      * Construct an empty mesh.
      */
     Mesh();
 
     /**
-     * @brief Mesh
+     * @brief Mesh.
      * Construct a mesh with the given primitive type
      * @param primitive The primitive
      */
     Mesh( const Primitive primitive );
 
     /**
-     * @brief Mesh
+     * @brief Mesh.
      * Construct a mesh from a file. Currently only the stanford ply format is
      * supported.
      * @param filename
@@ -91,7 +100,7 @@ public:
     Mesh( const std::string& filename );
 
     /**
-     * @brief Mesh
+     * @brief Mesh.
      * Construct a mesh from a vector of vertices. The faces, normals and colours are all
      * set to be empty in this constructor.
      * @param vertices A vector of vectors
@@ -99,7 +108,7 @@ public:
     Mesh(const std::vector< std::vector<double> >& vertices);
 
     /**
-     * @brief Mesh
+     * @brief Mesh.
      * Construct a mesh from a vector of vertices and a vector of faces. The faces must be integer
      * indexes in to the vertex vector.
      * @param vertices A vector of double precision arrays
@@ -108,7 +117,7 @@ public:
     Mesh( const std::vector< PointTypes::Pointd3 >& vertices, const std::vector< PointTypes::Pointi3 >& faces);
 
     /**
-     * @brief Mesh
+     * @brief Mesh.
      * Construct a mesh from a vector of vertices, faces, per vertex normals and per vertex colours
      * @param vertices A column major matrix of vertices of size 3N, where N is the number of vertices
      * @param faces A column major matrix of faces os size 3K where K is the number of faces
@@ -119,14 +128,14 @@ public:
           std::vector< double > normals, std::vector< double > colours );
 
     /**
-     * @brief Load
+     * @brief Load.
      * Load a ply from file. Currently only the stanford ply format is supported.
      * @param filename The path to the file.
      */
     void Load( const std::string& filename );
 
     /**
-     * @brief Write
+     * @brief Write.
      * Write the mesh to disk. Currently only the stanford ply format is supoprted.
      * @param filename the path to the file.
      */
@@ -141,7 +150,7 @@ public:
     std::vector<double> GetNormal( const uint32_t i) const;     ///< \brief Return a vector of size 3 corresponding to the normal at index i
 
     /**
-     * @brief ComputeNormalsFromPointsAndFaces
+     * @brief ComputeNormalsFromPointsAndFaces.
      * Compute the per vertex normals by iterating through the faces and adding the face normal to a
      * per vertex list. The final vertex normal is computed as an average of all the neighbouring
      * face normals. The face normals are computed using the cross product.
@@ -149,7 +158,7 @@ public:
     void ComputeNormalsFromPointsAndFaces();
 
     /**
-     * @brief ApplyNormals
+     * @brief ApplyNormals.
      * Apply the normals from an input mesh to 'this'. The method requires a nearest neighbours object
      * to find the nearest vertex in terms of Euclidean distance to apply the normal from.
      *
@@ -161,21 +170,21 @@ public:
     void ApplyNormals( const Mesh& mesh, const NearestNeighbours& nn );
 
     /**
-     * @brief ComputeAverageEdgeLength
+     * @brief ComputeAverageEdgeLength.
      * Return the average edge length
      * @return The average edge length
      */
     double ComputeAverageEdgeLength() const;
 
     /**
-     * @brief ComputeMean
+     * @brief ComputeMean.
      * Compute the mean vertex
      * @return A vector of length 3, the mean vertex.
      */
     std::vector<double> ComputeMean() const;
 
     /**
-     * @brief ComputeClosestPoint
+     * @brief ComputeClosestPoint.
      * Compute the closest vertex to a given point. This algorithm search all of the vertices, it is not
      * based on a nearest neighbours algorithm.
      * @param pt A vector of length three, the test point.
@@ -184,7 +193,7 @@ public:
     std::vector<double> ComputeClosestPoint( const std::vector<double>& pt ) const;
 
     /**
-     * @brief ComputeAverageDistance
+     * @brief ComputeAverageDistance.
      * Compute the average distance from the given test point, to all of the points in the mesh.
      * @param pt A vector of length 3, the test point.
      * @return The average distance
@@ -192,14 +201,14 @@ public:
     double ComputeAverageDistance( const std::vector<double>& pt ) const ;
 
     /**
-     * @brief FillNRing
+     * @brief FillNRing.
      * Compute the NRing for each of the vertices in the mesh, that is, all of the neighbouring
      * vertices which are connected by 1 edge.
      */
     void FillNRing();
 
     /**
-     * @brief GetNRing
+     * @brief GetNRing.
      * Get the NRing around a given vertex; all of the vertex indices which are connected to
      * the given vertex by an edge. This method requires FillNRing to be called beforehand.
      * @param i Return the NRing for this vertex
@@ -208,7 +217,7 @@ public:
     std::set<uint32_t> GetNRing( const uint32_t i);
 
     /**
-     * @brief TranslateVertices
+     * @brief TranslateVertices.
      * Perform a affine transformation on each of the vertices. Supposing that
      * v is an arbitrary vertex and A and b are the parameters for the affine  transformation,
      * compute a new vertex w = Av + b.
@@ -241,7 +250,7 @@ private:
     std::vector< std::set<uint32_t> > m_NRing;          ///< A vector of sets of indexes, representing the NRing of each vertex. This vector is of size m_NVerts.
 
     /**
-     * @brief ComputeTangents
+     * @brief ComputeTangents.
      * Compute a pair of tangent vectors for a given face. This pair of vectors form a basis for
      * the tangent space at the face, but are arbitrarily chosen from the set of all possible bases.
      * The tangent vectors are othonormal.

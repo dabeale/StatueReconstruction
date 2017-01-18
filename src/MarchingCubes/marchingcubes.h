@@ -58,8 +58,7 @@ extern int triTable[256][16];
 namespace MC
 {
     /**
-     * @brief The Pointd3 struct
-     * A double precision 3 dimensional vector
+     * @brief A double precision 3 dimensional vector
      */
     struct Pointd3
     {
@@ -67,8 +66,7 @@ namespace MC
     };
 
     /**
-     * @brief The Pointi3 struct
-     * An integral 3 dimensional vector
+     * @brief An integral 3 dimensional vector
      */
     struct Pointi3
     {
@@ -76,7 +74,7 @@ namespace MC
     };
 
     /**
-     * @brief The GridCell struct
+     * @brief The GridCell struct.
      * A structure representing a cube in the
      * marchine cubes algorithm.
      */
@@ -88,8 +86,7 @@ namespace MC
     } ;
 
     /**
-     * @brief The Triangle struct
-     * A structure which represents a triangle, or 3 vertices.
+     * @brief A structure which represents a triangle, or 3 vertices.
      */
     struct Triangle
     {
@@ -97,7 +94,7 @@ namespace MC
     } ;
 
     /**
-     * @brief VertexInterp
+     * @brief VertexInterp.
      * Interpolate between the vertices according to the function values at each of the vertices
      * @param isolevel The isolevel, or threshold.
      * @param p1 The first vertex
@@ -109,7 +106,7 @@ namespace MC
     Pointd3 VertexInterp(const double &isolevel, const Pointd3 &p1, const Pointd3 &p2, const double &valp1, const double &valp2);
 
     /**
-     * @brief The MarchingCubes class
+     * @brief The MarchingCubes class.
      * This is an implementation of the marching cubes algorithm. It separates the 3D space in
      * to a collection of cubes and then turns each cube in to a surface segment.
      *
@@ -123,8 +120,7 @@ namespace MC
     {
     public:
         /**
-         * @brief MarchingCubes
-         * Construct a marching cubes object.
+         * @brief onstruct a marching cubes object.
          * @param isoval The threshold to apply to the input function
          * @param npoints The number of cubes per dimension
          * @param max An array specifying the maximum for each dimension
@@ -137,7 +133,7 @@ namespace MC
         const std::vector<Pointi3>& GetFaces() const;   ///< \brief Return the face list
 
         /**
-         * @brief SetRenderToScreen
+         * @brief SetRenderToScreen.
          * Set the render to screen flag. If this is set to true, then the algorithm will
          * copy data into open gl inline.
          * @param render True if the algorithm should render the result.
@@ -145,7 +141,7 @@ namespace MC
         void SetRenderToScreen(bool render);
 
         /**
-         * @brief EnableBoolFunc
+         * @brief EnableBoolFunc.
          * The bool functional returns true if a cube should even be considered for surface construction.
          * It provides a way of quickly rejecting cubes if there is another heuristic for deciding whether
          * the main function if crosses the ise value in the cube.
@@ -154,7 +150,7 @@ namespace MC
         void EnableBoolFunc( const std::function<bool(const double*)>& fun );
 
         /**
-         * @brief March
+         * @brief March.
          * Compute the surface by checking each cube in the volume. This method has openmp directives
          * to parallelise the procedure.
          * @param fun The functional to evaluate at each point. It takes a pointer to a double precision array and returns a double.
@@ -162,7 +158,7 @@ namespace MC
         void March(const std::function<double(const double*)> &fun);
 
         /**
-         * @brief MarchKD
+         * @brief MarchKD.
          * A recursive method for the Marching cubes. It performs a coarse to fine strategy starting from
          * a maximum cube size. If all corners of the cube are below, or above, the isovalue, the cube is ignored;
          * otherwise the cube is divided and rechecked down to a minimum cube size.
@@ -173,8 +169,7 @@ namespace MC
         void MarchKD(const std::function<double(const double*)>& fun);
 
         /**
-         * @brief WriteToPly
-         * Write the current mesh to file
+         * @brief Write the current mesh to file
          * @param filename The math to the output file
          */
         void WriteToPly( const std::string& filename );
@@ -198,7 +193,7 @@ namespace MC
         bool m_doboolfunc;                             ///< If true, evaluate the bool func.
 
         /**
-         * @brief PolygoniseCube
+         * @brief PolygoniseCube.
          * Find the surface inside the cube. Append the vertices and faces to the list, and update
          * the vertex index accordingly. This method assumes that the vertices and faces are preallocated
          * @param g The current grid cell
@@ -209,7 +204,7 @@ namespace MC
         void PolygoniseCube(  const GridCell &g, std::vector<Pointd3>::iterator& vertit, std::vector<Pointi3>::iterator &faceit, uint32_t& vertindex);
 
         /**
-         * @brief PolygoniseCube
+         * @brief PolygoniseCube.
          * Find the surface inside the cube. Append the vertices and faces to the list, and update
          * the vertex index accordingly. This method does not assume that the vertex and face vectors are preallocated,
          * but they can be reserved.
@@ -221,7 +216,7 @@ namespace MC
         void PolygoniseCube(const GridCell &g, std::vector<Pointd3> &pointList, std::vector<Pointi3> &faceList, uint32_t cindex);
 
         /**
-         * @brief KD
+         * @brief KD.
          * The method for the recursive KD implementation of marching cubes
          * @param gc the current grid cell.
          * @param dim the current dimension
@@ -238,8 +233,7 @@ namespace MC
     };
 
     /**
-     * @brief WritePly
-     * Write a mesh to the stanford ply format.
+     * @brief Write a mesh to the stanford ply format.
      * @param filename The path to the output file
      * @param vertices A vector of vertices
      * @param faces A vector of triangle faces.

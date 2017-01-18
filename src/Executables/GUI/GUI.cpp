@@ -32,9 +32,7 @@
 QTime *gTime = NULL;
 
 /**
- * @brief main
- *
- * A command line executable to run the segmentation GUI.
+ * @brief A command line executable to run the segmentation GUI.
  *
  * @param argc
  * @param argvv

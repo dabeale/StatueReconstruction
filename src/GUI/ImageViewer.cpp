@@ -428,8 +428,7 @@ void ImageViewer::GetDimensions( uint32_t& height, uint32_t& width ) const
 }
 
 /**
- * @brief MainWindow::RefreshImage
- * Refreshes the image - used for clearing any other drawn points
+ * @brief Refreshes the image - used for clearing any other drawn points
  */
 void ImageViewer::RefreshImage()
 {

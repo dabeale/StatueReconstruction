@@ -39,7 +39,7 @@ namespace SegmentationGUI
 {
 
 /**
- * @brief The SegmentationModelParameters class
+ * @brief The SegmentationModelParameters class.
  * A class containing the model parameters. This includes the parameters for the Markov random field
  * and also the infinite Gaussian mixture model.
  */
@@ -47,8 +47,7 @@ class SegmentationModelParameters
 {
 public:
     /**
-     * @brief The SegType enum
-     * An enumeration of Markov random field algorithms
+     * @brief An enumeration of Markov random field algorithms
      */
     enum SegType
     {
@@ -57,8 +56,7 @@ public:
     };
 
     /**
-     * @brief SegmentationModelParameters
-     * the default constructor
+     * @brief The default constructor
      */
     SegmentationModelParameters() :
         m_Alpha({100.0,100.0}), m_NSample(5), m_edgeWeight(10.0), m_terminalWeight(0.1), m_type(GraphCut) {}
@@ -71,7 +69,7 @@ public:
 };
 
 /**
- * @brief The DepthModel struct
+ * @brief The DepthModel struct.
  * A collection of parameters for the depth model which is computed from the user annotations
  * and depth maps. It represents the a Gaussian model for the probability of depth, given the depth
  * map, and a binomial model for the probability that the foreground or background is defined.
@@ -95,8 +93,7 @@ struct DepthModel
 
 
 /**
- * @brief The SegmentationModel class
- *
+ * @brief The SegmentationModel class.
  * The segmentation model combines depth and colour information in order to disambiguate the foreground and
  * background. The parameters of the model are learned from the annotations that are drawn on a few images
  * by the user, allowing the algorithm to infer foreground and background in unlabelled images.
@@ -122,8 +119,7 @@ class SegmentationModel
 {
 public:
     /**
-     * @brief SegmentationModel
-     * The explicit constructor for the Segmentation model, which takes the collection of images with
+     * @brief The explicit constructor for the Segmentation model, which takes the collection of images with
      * their information, the 3D point cloud and a collection of camera matrices.
      * @param iminfos The images
      * @param mesh The 3D point cloud
@@ -133,14 +129,14 @@ public:
                       const std::vector<Math::Matrix>& ProjectionMatrices);
 
     /**
-     * @brief CreateData
+     * @brief CreateData.
      * Create a matrix of foreground colours and a matrix of background colours by uniformly sampling
      * the user annotations. the number of samples is governed by the member variable m_NSamples.
      */
     void CreateData(  );
 
     /**
-     * @brief RunSegmentation
+     * @brief RunSegmentation.
      * Compute all of the parameters for the model given the user input, and then infer the classes of each pixel
      * given the parameters.
      * @param variance The variance hyperparameter for the IGMM
@@ -149,29 +145,28 @@ public:
     void RunSegmentation( double variance, double alpha);
 
     /**
-     * @brief ComputeDepthModels
+     * @brief ComputeDepthModels.
      * Compute the depth models for the point cloud given the calibrated views.
      */
     void ComputeDepthModels();
 
     /**
-     * @brief ComputePointProbabilities
+     * @brief ComputePointProbabilities.
      * Compute the probabilities that each point in the point cloud belongs to the fg / bg, given the
      * probabilities in the image space.
      */
     void ComputePointProbabilities();
 
     /**
-     * @brief EvaluateMRF
+     * @brief EvaluateMRF.
      * Evaluate the class of a pixel given the model parameters and the Markov random field assumption.
      * @param msg The interface for printing messages to stdout.
      */
     void EvaluateMRF(Stream::Message &msg);
 
     /**
-     * @brief GetParameters
-     * Return the chosen parameters for the model
-     * @return
+     * @brief Return the chosen parameters for the model
+     * @return The segmentation model parameters.
      */
     inline SegmentationModelParameters& GetParameters(){return m_params;}
 private:

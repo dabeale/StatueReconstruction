@@ -44,7 +44,7 @@
 namespace SegmentationGUI
 {
 /**
- * @brief The ImageViewer class
+ * @brief The ImageViewer class.
  * Extends QLabel into an object which can deal with images and a collection of points drawn on it.
  */
 class ImageViewer : public QLabel
@@ -53,11 +53,10 @@ class ImageViewer : public QLabel
 
 public:
     typedef std::vector< PenPoint > PointBuffer; ///< A vector of drawn PenPoints
-    typedef std::vector< ImageInfo > ImageList; ///< A vector of ImageInfos
+    typedef std::vector< ImageInfo > ImageList;  ///< A vector of ImageInfos
 
     /**
-     * @brief ImageViewer
-     * An explicit constructor for the ImageViewer.
+     * @brief An explicit constructor for the ImageViewer.
      * @param startDirectory This directory indicates where the file input dialoges should start.
      * @param parent the parent QWidget
      */
@@ -107,13 +106,13 @@ private slots:
     void UpdateMRFParameters();     ///< \brief Update the MRF parameters from the window
 
 signals:
-    void ImagesLoaded(); ///< Emitted when the images have been loaded
+    void ImagesLoaded();  ///< Emitted when the images have been loaded
     void ModelComputed(); ///< Emitted when the model has been computed
 
 private:
     void DrawAnnotation(QPainter &painter); ///< \brief Draw the user annotations on to the current image
 
-    Mesh m_3dmesh; ///< A mesh or point cloud
+    Mesh m_3dmesh;                                  ///< A mesh or point cloud
     std::vector<Math::Matrix> m_ProjectionMatrices; ///< The projection matrices for each camera
 
     int m_x;         ///< Becomes m_mousex when the mouse is outside of a radius of m_x
@@ -126,8 +125,7 @@ private:
     bool m_paintInitialised; ///< If true the ImageViewer will start painting to the canvas
 
     /**
-     * @brief The ViewMode enum
-     * An enumeration of view modes. It identifies what is
+     * @brief An enumeration of view modes. It identifies what is
      * shown in the image viewer and also which user annotations are shown.
      */
     enum ViewMode
@@ -139,7 +137,7 @@ private:
         DepthMap
     };
 
-    ViewMode m_viewMode;    ///< The currently selected view mode.
+    ViewMode m_viewMode;     ///< The currently selected view mode.
 
     Qt::GlobalColor m_color; ///< Color of cursor
 
@@ -147,8 +145,7 @@ private:
     ImageList::iterator m_current; ///< Pointer to the currently viewed image
 
     /**
-     * @brief The SketchType enum
-     * An enumeration of user selection tools.
+     * @brief An enumeration of user selection tools.
      */
     enum SketchType
     {
@@ -167,13 +164,13 @@ private:
 
     QString& m_startDirectory; ///< The directory to initialise the input dialogues.
 
-    Stream::Message m_msg; ///< The message streaming interface
+    Stream::Message m_msg;     ///< The message streaming interface
 
-    bool m_PointsDrawn;      ///< True if any points have been drawn on the interface
-    bool m_ModelComputed;    ///< True when the model has been computed
-    bool m_depthMapComputed; ///< True if the depth maps have been computed
+    bool m_PointsDrawn;        ///< True if any points have been drawn on the interface
+    bool m_ModelComputed;      ///< True when the model has been computed
+    bool m_depthMapComputed;   ///< True if the depth maps have been computed
 
-    SegmentationModel m_sgm; ///< The segmentation model
+    SegmentationModel m_sgm;    ///< The segmentation model
 
     MRFParametersWindow *m_mrfparamswindow; ///< The MRF parameters window
 };

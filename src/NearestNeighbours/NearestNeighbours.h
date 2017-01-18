@@ -33,7 +33,7 @@
 #include <cmath>
 
 /**
- * @brief The NearestNeighbours class
+ * @brief The NearestNeighbours class.
  * The nearest neighbour class was set up as an interface for a number of different nearest neighbour algorithms.
  * In this implementation, only the KD and Randomised KD tree are used, the other methods will not work.
  */
@@ -41,7 +41,7 @@ class NearestNeighbours
 {
 public:
     /**
-     * @brief The Algorithm enum
+     * @brief The Algorithm enum.
      * An enumeration of possible nearest neighbour algorithms.
      */
     enum Algorithm
@@ -50,7 +50,7 @@ public:
     };
 
     /**
-     * @brief NearestNeighbours
+     * @brief NearestNeighbours.
      * A constructor for the nearest neighbour algorithm
      * @param algorithm The nearest neighbour algorithm to use
      * @param data A pointer to the column wise data matrix
@@ -68,7 +68,7 @@ public:
     ~NearestNeighbours(); ///< An empty destructor
 
     /**
-     * @brief Search
+     * @brief Search.
      * Search for the nearest neighbours to a given point.
      * @param point A pointer to the M dimensional point
      * @param K The number of neighbours to find
@@ -78,7 +78,7 @@ public:
 private:
 
     /**
-     * @brief The DataStore struct
+     * @brief The DataStore struct.
      * A pointer to the KD::RandomisedTrees object
      */
     struct DataStore
@@ -99,7 +99,7 @@ private:
     const uint32_t m_verbose;                           ///< If true print output
 
     /**
-     * @brief PrintMessage
+     * @brief PrintMessage.
      * Print a message to stdout preceded by arrows of length specified by the input variable 'level'.
      * For example
      * \code

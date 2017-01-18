@@ -40,7 +40,7 @@ namespace KD
 {
 
 /**
- * @brief print_array
+ * @brief print_array.
  * Print a double array to stdout, which contains a column major matrix.
  * @param array A pointer to the array
  * @param dims The number of dimensions
@@ -49,7 +49,7 @@ namespace KD
 void print_array(const double *array, const uint32_t dims, const uint32_t N );
 
 /**
- * @brief print_array
+ * @brief print_array.
  * Print an integer array to stdout, which contains a column major matrix.
  * @param array A pointer to the array
  * @param dims The number of dimensions
@@ -58,7 +58,7 @@ void print_array(const double *array, const uint32_t dims, const uint32_t N );
 void print_array(const uint32_t *array, const uint32_t dims, const uint32_t N );
 
 /**
- * @brief The NodeData struct POD
+ * @brief The NodeData struct POD.
  * All of the data required for the node. A copy of this struct is
  * contained within each node.
  */
@@ -73,7 +73,7 @@ struct NodeData
 };
 
 /**
- * @brief The Data struct
+ * @brief The Data struct.
  * A storage space for the data. This struct is
  * unique, and pointers to it are passed down the trees.
  */
@@ -86,7 +86,7 @@ struct Data
 };
 
 /**
- * @brief The Node class
+ * @brief The Node class.
  * This is an abstract class for a node. It contains a pointer to another
  * node on the left and right, which are null if the node is either empty or a leaf.
  * To instantiate the entire heirarchy instantiate a single data node with a
@@ -96,7 +96,7 @@ class Node
 {
 public:
     /**
-     * @brief The Type enum
+     * @brief The Type enum.
      * An enumeration of the possible types for a node (Leaf or Data).
      * The empty type was included to begin with, but became unecessary since smart pointers can be null.
      */
@@ -108,8 +108,7 @@ public:
     };
 
     /**
-     * @brief Node
-     * Instantiate a single node
+     * @brief Instantiate a single node
      * @param type The node type
      * @param data A reference to the data struct
      * @param nd A node data object.
@@ -117,13 +116,13 @@ public:
     Node(Type type, Data &data, const NodeData nd);
 
     /**
-     * @brief ~Node
+     * @brief ~Node.
      * The virtual destructor for the node
      */
     virtual ~Node(){}
 
     /**
-     * @brief Node
+     * @brief Node.
      * Copy this node and all of its subnodes. Calling this function
      * effectively copies the entire tree. The tree is stored as using the
      * shared pointer paradigm.
@@ -132,7 +131,7 @@ public:
     Node(const Node &node);
 
     /**
-     * @brief Search
+     * @brief Search.
      * Search the node for a particular point. Starting from the head, recurse down the
      * branches until a leaf is reached. The method is virtual since only a DataNode has
      * pointers to lower level nodes, the Leaf Nodes cannot search left or right.
@@ -155,7 +154,7 @@ protected:
     NodeData m_nd; ///< The node data
 
     /**
-     * @brief DistanceToPoint
+     * @brief DistanceToPoint.
      * Return the distance from the node data element to the point
      * @param point A pointer to the point which should be compared
      * @return The Euclidean distance
@@ -163,7 +162,7 @@ protected:
     double DistanceToPoint( const double* point ) const;
 
     /**
-     * @brief NodeFactory
+     * @brief NodeFactory.
      * Create a new node based on the node data. This method will select the type of node
      * depending on how much data is left, and either return a leaf or data node.
      * @param data A reference to the data store
@@ -184,7 +183,7 @@ protected:
 };
 
 /**
- * @brief The Leaf class
+ * @brief The Leaf class.
  * The lowermost node in the tree. The pointers to left and right sub nodes
  * are null.
  */
@@ -192,35 +191,34 @@ class Leaf : public Node
 {
 public:
     /**
-     * @brief Leaf
-     * Create a new leaf node
+     * @brief Create a new leaf node
      * @param data A reference to the data struct
      * @param nd The node data
      */
     Leaf( Data& data, const NodeData nd);
 
     /**
-     * @brief Leaf
+     * @brief Leaf.
      * A copy constructor for the leaf node from a Node
      * @param node
      */
     Leaf( const Node& node );
 
     /**
-     * @brief Leaf
+     * @brief Leaf.
      * A copy constructor for the leaf node from a Leaf
      * @param node
      */
     Leaf( const Leaf& node );
 
     /**
-      * @brief ~Leaf
+      * @brief ~Leaf.
       * The destructor for the LeafNode.
       */
     ~Leaf(){}
 
     /**
-     * @brief Search
+     * @brief Search.
      * Search the leaf. This search method is trivial since we are at the bottom of the
      * tree. The recursion stops and so we add the index and distance to the DistanceIndex vector
      * and decrement K, if it is greater than zero.
@@ -232,7 +230,7 @@ public:
 };
 
 /**
- * @brief The DataNode class
+ * @brief The DataNode class.
  * This class represents a Node on the tree which is not a leaf. It, therefore, contains
  * pointers to a left and right node, both of which could contain a leaf node, data node,
  * or be null. The search method recurses down the tree.
@@ -241,7 +239,7 @@ class DataNode : public Node
 {
 public:
     /**
-     * @brief DataNode
+     * @brief DataNode.
      * Construct a data node from a reference to the data store and a NodeData object.
      * This constructor is used when the tree is first created.
      * @param data A reference to the data store
@@ -250,14 +248,14 @@ public:
     DataNode( Data& data, const NodeData nd);
 
     /**
-     * @brief DataNode
+     * @brief DataNode.
      * Create a data node from a Node.
      * @param node
      */
     DataNode( const Node& node );
 
     /**
-     * @brief DataNode
+     * @brief DataNode.
      * Create a data node from a DataNode.
      * @param node
      */
@@ -265,7 +263,7 @@ public:
     ~DataNode();
 
     /**
-     * @brief Search
+     * @brief Search.
      * Search the tree for the data pointed to by point. The DistanceIndex vector is filled as
      * the tree is parsed. It may not contain unique values, since there is data on each of the
      * nodes, not just the leaves.
@@ -277,7 +275,7 @@ public:
 };
 
 /**
- * @brief The Empty class
+ * @brief The Empty class.
  * The empty class was originally designed so that the KD tree could be stored on the
  * stack. The latest implementation uses smart pointers, which can be null, and so it is not necessary any more.
  */
