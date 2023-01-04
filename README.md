@@ -30,7 +30,7 @@ First clone the git repository using the command,
 To compile the software either open the project file in the source directory, and compile from Qt Creator, or run,
 > ./Build.sh
 
-from the base directory. This script will check for the required pre-requisites before buiding. If the build fails please email me at dabeale@gmail.com.
+from the base directory. This script will check for the required pre-requisites before buiding.
 
 ## Examples
 
